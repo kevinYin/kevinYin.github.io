@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "chrome使用技巧之snippets"
+title:  "年轻代和老年代的垃圾回收"
 date:   2016-03-06 00:16
 categories: chrome
 permalink: /archivers/20160306/old-younGC
