@@ -13,6 +13,7 @@ permalink: /Priest/old-younGC
 **描述：**年轻代分为3个区，Eden区，from survival ，to survival，三者的大小比例是8：1：1.年轻代的对象大多数都是短命鬼（IBM统计过年轻代98%的对象都是会被回收的），其GC的过程名称为Minor GC。
 
 **Minor GC过程：**
+
 >1.创建对象伊始，大部分对象都被分配在Eden区，一次GC后，大部分对象都会被回收，没有被回收的幸存的对象，将会从 Eden区和from survival区 复制到to survival区;复制完后，from survival区被清空，它将成为下一次GC的to survival区，而本次的 to survival区将会成为 from survival区。
 
 >2.如果复制到 to survival区的对象由于to survival区内存不足，存活的对象将会移到老年代。
