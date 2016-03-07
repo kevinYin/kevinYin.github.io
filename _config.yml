@@ -20,7 +20,7 @@ github_username:  kevinYin
 #disqus_shortname: xxx   # get one: https://disqus.com/admin/signup/
 duoshuo_shortname: kevinYin-github-io  # get one: http://duoshuo.com/create-site/
 
-permalink: /archivers/:title
+permalink: /Priest/:title
 gems:
  - jekyll-paginate
  - jekyll-gist
