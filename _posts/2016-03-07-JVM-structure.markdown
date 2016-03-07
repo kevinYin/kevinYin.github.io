@@ -10,7 +10,7 @@ permalink: /Priest/JVM-structure
  
 ##JVM内存结构
 
- [1]: http://images0.cnblogs.com/blog/641601/201508/211701583165320.jpg
+ ![MacDown logo](http://images0.cnblogs.com/blog/641601/201508/211701583165320.jpg)
   
   其中方法区和java堆是线程共享区域，虚拟机栈 本地方法栈 程序计数器是线程隔离的区域。
   
