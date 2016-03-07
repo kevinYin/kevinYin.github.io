@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "年轻代和老年代的垃圾回收"
-date:   2016-03-06 00:16
+title:  "年轻代和年老代的垃圾回收过程"
+date:   2016-03-07 19:16
 categories: chrome
-permalink: /archivers/20160306/old-younGC
+permalink: /JVM/new-old-GC
 ---
 
 #年轻代和老年代的垃圾回收
