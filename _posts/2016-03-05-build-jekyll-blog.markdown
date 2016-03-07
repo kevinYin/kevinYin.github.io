@@ -1,43 +1,35 @@
 ---
 layout: post
-title:  "使用jekyll搭建博客及jekyll模板easybook使用方法"
-date:   2016-03-05 00:16
-categories: other
-permalink: /archivers/20160305/jekyllblog
+title:  "年轻代和年老代的垃圾回收过程"
+date:   2016-03-07 19:16
+permalink: /JVM/new-old-GC
 ---
 
-网上关于在github上搭建静态博客的文章很多，也很详细，这里只是简单记录下本站的搭建过程。
+#年轻代和老年代的垃圾回收
+---
+**背景：**现代商业虚拟机都是采用了分代收集算法进行垃圾回收，java堆依此将java堆拆分为年轻代和年老代。
+##年轻代的垃圾回收过程
+**描述：**年轻代分为3个区，Eden区，from survival ，to survival，三者的大小比例是8：1：1.年轻代的对象大多数都是短命鬼（IBM统计过年轻代98%的对象都是会被回收的），其GC的过程名称为Minor GC。
 
-* 在`github`上创建一个项目，项目名为`username.github.io`，`username`就是你github的名字，然后一步步的按提示操作...
-*  不想自己折腾的话可以选择博客模板，刚才在`github`上创建项目并`autoloadpage`后是可以选择模板的，我们也可以在网上找`jekyll`的相关模板，这里我选择的是[`easybook`](https://github.com/laobubu/jekyll-theme-EasyBook)
-* 下载[`easybook`](https://github.com/laobubu/jekyll-theme-EasyBook)后，将其文件拷贝到你本地的`username.github.io`下（先要`clone`你刚才在`github`上建的项目）
-* 安装`ruby`、`gem`、`jekyll`（自行百度）,然后本地启动查看效果，浏览器打开[127.0.0.1:4000](http://127.0.0.1:4000)就可以看到效果
+**Minor GC过程：**
+>1.创建对象伊始，大部分对象都被分配在Eden区，一次GC后，大部分对象都会被回收，没有被回收的幸存的对象，将会从 Eden区和from survival区 复制到to survival区;复制完后，from survival区被清空，它将成为下一次GC的to survival区，而本次的 to survival区将会成为 from survival区。
 
-```ruby
-jekyll server
-```
+>2.如果复制到 to survival区的对象由于to survival区内存不足，存活的对象将会移到老年代。
 
-### 对easybook模板进行修改 ###
+>3.如果年轻代部分对象在多次minor GC没有被回收，那么达到一定的年龄后 会被转移到老年代。JVM默认的最高年龄是15，一次Minor GC会给对象的年龄+1，达到系统设置的年龄后，会被转移到 老年代。
 
-下面按照自己的需求个性化一下这个模板。所谓的个性化，指的是根据刚才显示的效果查看对应的文件，了解页面的显示方式所对应的编写方法（原谅我没有深入的究其原理，只是研究了这套模板而已）。
+**设置常用的参数：** 
 
-先看`_config.yml`文件，这里面定义的东东简单理解就是定义的全局的变量，然后其他文件可以使用，这里我也不介绍很仔细了，简单的提下自己改的地方。
-`title`:网站标题
-`description`:描述，`seo`用的，生成的页面里的`meta`标签里可以看到
-`avatar`:头像对应的图片地址，当然也可以将图片放在项目里引入或者直接修改`sidebar.html`里的头像地址
-其他对应参数的修改可以看下面我的[`github`][my-jekyll-blog]上该项目的具体修改
+-XX:InitialTenuringThreshold:设定老年代阀值的初始值
 
-### 发布文章
+-XX:MaxTenuringThreshold:设定老年代阀值的初始值
 
-之前看网上的，使用`markdown`语法编写好博客后，还需要执行`jekyll`的相关命令进行生产对应的文档，但是我这里没有这么做。文章在本地写好后使用`jekyll server`进行本地预览，预览成功后，直接将本地修改`push`到`github`上就可以了，直接使用`master`分支，文档的类型是`markdown`不是`md`，否则上传后不显示(`md`类型的文档本地是可以预览显示的，具体原因还不知)，还要注意文档的日期格式。
+-XX:TargetSurvivorRatio : 设定幸存区的目标使用率
 
-### 结语
+例子：XX:MaxTenuringThreshold=10 -XX:TargetSurvivorRatio=90 设定老年代阀值的上限为10,幸存区空间目标使用率为90%。
 
-感觉使用`jekyll`来写静态博客还是蛮方便的，这也给了懒人一个写博客的理由 - -
+**优化原则：**希望最小化短命对象晋升到老年代的数量，同时也希望最小化新生代GC 的次数和持续时间。
 
-当然，`easybook`里文章的分页以及分类都已经实现了，每篇`md`文档最上边的`categories`就是分类标识，也可以一篇文章处于多个分类里。关于博客的评论功能有时间再看看怎么引入。
-希望自己能将这个习惯坚持下去
+##年老代的垃圾回收过程
 
-> 附上修改后的项目的`github`地址，[https://github.com/YL2014/YL2014.github.io][my-jekyll-blog]，欢迎`Star`
-
-[my-jekyll-blog]: https://github.com/YL2014/YL2014.github.io
+				
