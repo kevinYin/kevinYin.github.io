@@ -2,6 +2,7 @@
 layout: post
 title:  "年轻代和年老代的垃圾回收过程"
 date:   2016-03-07 19:16
+categories: chrome
 permalink: /JVM/new-old-GC
 ---
 
