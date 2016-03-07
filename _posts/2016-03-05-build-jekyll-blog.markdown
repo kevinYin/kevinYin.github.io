@@ -3,7 +3,7 @@ layout: post
 title:  "chrome使用技巧之snippets"
 date:   2016-03-06 00:16
 categories: chrome
-permalink: /archivers/20160306/chrome-snippets
+permalink: /archivers/20160306/old-younGC
 ---
 
 #年轻代和老年代的垃圾回收
