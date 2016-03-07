@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "年轻代和年老代的垃圾回收过程"
-date:   2016-03-07 19:16
+title:  "chrome使用技巧之snippets"
+date:   2016-03-06 00:16
 categories: chrome
-permalink: /JVM/new-old-GC
+permalink: /archivers/20160306/chrome-snippets
 ---
 
 #年轻代和老年代的垃圾回收
