@@ -1,3 +1,11 @@
+---
+layout: post
+title:  "年轻代和年老代的垃圾回收过程"
+date:   2016-03-07 19:16
+categories: other
+permalink: /JVM/new-old-GC
+---
+
 #年轻代和老年代的垃圾回收
 ---
 **背景：**现代商业虚拟机都是采用了分代收集算法进行垃圾回收，java堆依此将java堆拆分为年轻代和年老代。
