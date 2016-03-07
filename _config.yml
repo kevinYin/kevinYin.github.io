@@ -1,24 +1,24 @@
 # Site settings
-title: yler's Blog
-url: "http://yl2014.github.io"    # the protocol and hostname of your site, eg. `http://laobubu.github.io`
+title: K.Priest
+url: "http://kevinYin.github.io"    # the protocol and hostname of your site, eg. `http://laobubu.github.io`
 baseurl: "" # the prefix of your site uri, eg. `/jekyll-theme-EasyBook` or just one slash `/`
 #timezone: Asia/Chongqing
 description: >
-  javascript vue react angular node jquery
+  java coder Big-Data 
 
 # Your information
-email: 842237798@qq.com
+email: liang_chengyin@q.com
 author: yler
 #avatar: "//www.gravatar.com/avatar/your_email_md5?d=mm&s=135"
 avatar: "http://i1.sinaimg.cn/blog/2011/0906/U4864P899DT20110906200056.jpg"
 profile: 搬砖中...
 #twitter_username: twitter_username
-github_username:  YL2014
+github_username:  kevinYin
 
 # Comment Service (Disqus or 多说)
 #  choose one and un-comment the line to active it
 #disqus_shortname: xxx   # get one: https://disqus.com/admin/signup/
-duoshuo_shortname: yl2014-github-io  # get one: http://duoshuo.com/create-site/
+duoshuo_shortname: kevinYin-github-io  # get one: http://duoshuo.com/create-site/
 
 permalink: /archivers/:title
 gems:
@@ -27,7 +27,7 @@ gems:
  - jemoji
 
 # Build settings
-paginate: 5
+paginate: 8
 paginate_path: "page:num"
 
 highlighter: rouge
