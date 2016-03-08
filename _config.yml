@@ -18,7 +18,7 @@ github_username:  kevinYin
 # Comment Service (Disqus or 多说)
 #  choose one and un-comment the line to active it
 #disqus_shortname: xxx   # get one: https://disqus.com/admin/signup/
-duoshuo_shortname: kevinYin-github-io  # get one: http://duoshuo.com/create-site/
+#duoshuo_shortname: kevinYin-github-io  # get one: http://duoshuo.com/create-site/
 
 permalink: /Priest/:title
 gems:
