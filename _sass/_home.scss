@@ -1,6 +1,6 @@
 .home {
 .page-heading {
-	font-size:40px;
+	font-size:24px;
 	font-weight: normal;
 	margin: 20px;
     @include media-query($on-palm) {
@@ -26,9 +26,9 @@
 	padding: 20px 40px;
     list-style: none;
     > li {
-        padding-bottom: 30px;
+        padding-bottom: 10px;
         border-bottom: 1px solid #CCC;
-    	margin-bottom: 30px;
+    	margin-bottom: 10px;
     }
     .post-title {
     	font-size: 28px;
