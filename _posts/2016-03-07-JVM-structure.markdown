@@ -64,9 +64,10 @@ java堆是用于存放对象实例，几乎所有的对象都在这里分配内�
 
 <h3>2.虚拟机栈内存溢出</h3>
 
-当前线程申请的栈深度大于虚拟机允许的最大深度导致的栈内存溢出
+
 ```java
 /**
+ * 当前线程申请的栈深度大于虚拟机允许的最大深度导致的栈内存溢出
  * 递归
  */
  public  void stackLeak() {
@@ -93,6 +94,7 @@ java堆是用于存放对象实例，几乎所有的对象都在这里分配内�
 <h3>3. 永生带：string 的intern方法</h3>
 
 
+```java
     /**
      * intern : 如果字符串常量池中已经包含了一个等于此string对象的字符串,则返回代表翅中这个字符串的string对象;
      * 否则,将其加到常量池中.
@@ -110,7 +112,7 @@ java堆是用于存放对象实例，几乎所有的对象都在这里分配内�
         String itern2 = new StringBuilder("ja").append("va").toString();
         System.out.println(itern2 == itern2.intern());
     }
-
+```
 
 
 				
