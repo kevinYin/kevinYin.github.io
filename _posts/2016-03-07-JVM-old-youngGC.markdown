@@ -22,13 +22,13 @@ permalink: /Priest/old-younGC
 
 >3.如果年轻代部分对象在多次minor GC没有被回收，那么达到一定的年龄后 会被转移到老年代。JVM默认的最高年龄是15，一次Minor GC会给对象的年龄+1，达到系统设置的年龄后，会被转移到 老年代。
 
-**设置常用的参数：** 
-
--XX:InitialTenuringThreshold:设定老年代阀值的初始值
-
--XX:MaxTenuringThreshold:设定老年代阀值的初始值
-
--XX:TargetSurvivorRatio : 设定幸存区的目标使用率
+**设置常用的参数：**
+	
+	1.-XX:InitialTenuringThreshold:设定老年代阀值的初始值
+	
+	2.-XX:MaxTenuringThreshold:设定老年代阀值的初始值
+	
+	3.-XX:TargetSurvivorRatio : 设定幸存区的目标使用率
 
 例子：XX:MaxTenuringThreshold=10 -XX:TargetSurvivorRatio=90 设定老年代阀值的上限为10,幸存区空间目标使用率为90%。
 
