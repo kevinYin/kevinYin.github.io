@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "年轻代和老年代的垃圾回收"
-date:   2016-03-06 00:16
+date:   2016-03-10 12:16
 categories: JVM
 permalink: /Priest/old-younGC
 
