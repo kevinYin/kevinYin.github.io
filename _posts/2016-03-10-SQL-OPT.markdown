@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "JVM的垃圾收集算法以及应用"
-date:   2016-03-06 00:16
-categories: JVM
+title:  "记一次线上SQL优化"
+date:   2016-03-10 00:16
+categories: SQL
 permalink: /Priest/one-time-sql-opt-experience
 
 ---
