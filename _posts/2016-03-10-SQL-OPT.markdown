@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "记一次线上SQL优化"
-date:   2016-03-10 12:16
+date:   2016-03-06 12:16
 categories: SQL
 permalink: /Priest/one-time-sql-opt-experience
 
@@ -10,8 +10,6 @@ permalink: /Priest/one-time-sql-opt-experience
 **问题描述：**今早一大早过来，运营的同事反馈系统比较卡，查了日志出现了很多dubbo服务超时的问题。找了运维的同事看了下，是数据库负载很高，比平时高很多。
 
 **查找问题：**根据cat的线上问题显示，查找到了是某一个DAO方法查询的时候出现慢查询，超出dubbo设置的超时时间，然后找运维的同事看了下线上慢查询，排名第一的就是这个DAO的SQL查询语句：
-
-
 >select qh.*, qi.status inquiryStatus, qi.inquiryId inquiryId, qi.failTime inquiryFailTime from `qp_helpmefind` qh left join `qp_inquiry` qi on(qh.helpMeFindId = qi.helpMeFindId) where 1=1  and qh.status != -1 order by inquiryId desc limit 0,12
 
 **分析问题：**首先第一是登陆线上数据，然后 explain 下SQL语句，查看是否是索引没有加上或者不生效，结果如图：
