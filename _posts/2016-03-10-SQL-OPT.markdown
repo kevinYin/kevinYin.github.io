@@ -1,12 +1,11 @@
 ---
 layout: post
-title:  "记一次线上SQL优化"
-date:   2016-03-10 12:16
-categories: SQL
+title:  "年轻代和老年代的垃圾回收"
+date:   2016-03-06 00:16
+categories: JVM
 permalink: /Priest/one-time-sql-opt-experience
 
 ---
-
 
 **问题描述：**今早一大早过来，运营的同事反馈系统比较卡，查了日志出现了很多dubbo服务超时的问题。找了运维的同事看了下，是数据库负载很高，比平时高很多。
 
