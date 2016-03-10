@@ -1,8 +1,8 @@
 ---
 layout: post
-title:  "年轻代和老年代的垃圾回收"
+title:  "记一次线上SQL优化"
 date:   2016-03-06 00:16
-categories: JVM
+categories: SQL
 permalink: /Priest/one-time-sql-opt-experience
 
 ---
