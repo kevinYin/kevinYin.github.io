@@ -48,7 +48,6 @@ permalink: /Priest/JVM-tuning-in-action
 
 >4.`-XX:SurvivorRatio`  设置Eden区与survival区的比例   
 
----
 
 以上是网上NHN公司性能实验室工程师 Sangmin Lee的实践后总结常用到的，但是我个人觉得还有几个参数也是可以同样有参考作用.
 
