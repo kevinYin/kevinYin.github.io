@@ -49,11 +49,10 @@ permalink: /Priest/JVM-tuning-in-action
 >4.`-XX:SurvivorRatio`  设置Eden区与survival区的比例   
 
 
-以上是网上NHN公司性能实验室工程师 Sangmin Lee的实践后总结常用到的，但是我个人觉得还有几个参数也是可以同样有参考作用.
+以上是网上NHN公司性能实验室工程师 Sangmin Lee的实践后总结常用到的，但是我个人觉得还有个参数也是可以同样有参考作用.
 
 >5.`-XX:MaxTenuringThreshold`  设定老年代阀值的上限(年轻代的对象会在多次GC后如果还存留在幸存区，但不会一直保留，有规定的年限（默认15），超过年限后就会直接进入老年代)
 
->6.`-XX:TargetSurvivorRatio`  设置幸存区空间目标使用率，即在老年代使用空间达到多少之后就触发 full  GC 这样就可以避免 full  GC发生时，处理的对象数量没那么多，执行GC的时间长度也会下降。当然，设置得不正确，比如较小，会带来 full  GC次数的增加。
 
 <h2>调优过程</h2>
 
