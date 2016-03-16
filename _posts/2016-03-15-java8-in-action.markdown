@@ -115,6 +115,7 @@ public class TestLambda {
         }).collect(toList()).get(0);
  ```
  
+
 ` 2.map,映射对象到另外一个对象中去`
 
 
@@ -133,7 +134,8 @@ public class TestLambda {
         Optional<BigDecimal> finalSum = numList.stream().reduce((n1, n2) -> n1.add(n2)); // 7
         BigDecimal resultSum = numList.stream().reduce(initSum, (n1, n2) -> n1.add(n2));// 8
  ```     
-  
+ 
+ 
 `4. flatMap 用于获取 所有集合对象的子集合`
 
 
@@ -156,7 +158,10 @@ public class TestLambda {
 
 >常用的toList toSet groupingBy toMap
 
-```
+
+
+```java
+
  @Test
     public void testCollectors() {
         //1. toMap 将集合转map
