@@ -160,12 +160,11 @@ public class TestLambda {
 >常用的toList toSet groupingBy toMap
 
 
+`1. toMap 将集合转map`
+
 
 ```java
 
- @Test
-    public void testCollectors() {
-        //1. toMap 将集合转map
         Order order01 = new Order(1, "01", Arrays.asList(new OrderDetail(1), new OrderDetail(1)));
         Order order02 = new Order(2, "02", Arrays.asList(new OrderDetail(3), new OrderDetail(4)));
         Order order03 = new Order(1, "03", Arrays.asList(new OrderDetail(5), new OrderDetail(6)));
@@ -175,17 +174,26 @@ public class TestLambda {
         //map(keyFunction,valueFunc,mergeFunction)  mergeFunction 指定在key重复的时候使用哪一个value
         Map<Integer, Order> orderMap2 = orders.stream().collect(Collectors.toMap(o -> o.getId(), o -> o, (k1, k2) -> k1));
         orderMap.entrySet().forEach(e -> System.out.println(e.getKey()));
+```
 
-        //2.groupingBy 聚合操作
+
+`2.groupingBy 聚合操作`
+
+
+```java
+
         Map<Integer, List<Order>> orderGroupMap = orders.stream().collect(Collectors.groupingBy(Order::getId));
 
         Map<Integer, Integer> groupNumMap = orders.stream().collect(Collectors.groupingBy(Order::getId, Collectors.summingInt(p -> 1)));
     }
 ```
 
+
+
 这是一些基本的常用的用法，在使用过程中，曾经遇到过一个这样的疑惑，类似这种 `list.filter(filterFunc).forEach(changeElementValue)` 这样操作能改变原来的`list`的值吗？于是测试了下：
 
-```
+
+```java
 @Test
     public void testFilerChangeObject() {
         List<String> nums = Arrays.asList("1", "5");
@@ -198,5 +206,6 @@ public class TestLambda {
         System.out.println(orders);
     }
 ```
+
 
 实验结果，基本数据类型 和  String 都不能修改生效，但是普通的对象修改能生效。原因：基本类型和String作为参数传入方法时， 无论该参数在方法内怎样被改变，外部的变量原型总是不变的，因为改动的是值的一个拷贝，所以没有改变。普通对象的修改的是对象的引用，所以能生效。详情可以参考[这里](http://freej.blog.51cto.com/235241/168676).
