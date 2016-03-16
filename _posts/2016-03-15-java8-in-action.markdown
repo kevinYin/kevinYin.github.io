@@ -69,31 +69,31 @@ List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPre
   `2. Function 返回一个单一结果,实践上 一般用于 对象转换`
   
 ```java 
-	List<Integer> numbers = Arrays.asList(2);
-	Function<Integer, String> convertToStrFunc = n -> "00000" + n * n;
-	List<String> numStrs = numbers.stream().map(convertToStrFunc).collect(toList());
-	//function 有几个常用的 接口 默认方法实现, compose  andThen
-	Function<Integer, Integer> sumFunc1 = n -> n*n;
-	Function<Integer, Integer> sumFunc2 = n -> n*3;
-	//compose 先执行 参数sumFunc2 再执行 调用方sumFunc1,andThen反过来
-	// 2*3=6  6*6=36
-	List<Integer> r1 = numbers.stream().map(sumFunc1.compose(sumFunc2)).collect(toList());
-	// 2*2=4 4*3=12
-	List<Integer> r2 = numbers.stream().map(sumFunc1.andThen(sumFunc2)).collect(toList());
+List<Integer> numbers = Arrays.asList(2);
+Function<Integer, String> convertToStrFunc = n -> "00000" + n * n;
+List<String> numStrs = numbers.stream().map(convertToStrFunc).collect(toList());
+//function 有几个常用的 接口 默认方法实现, compose  andThen
+Function<Integer, Integer> sumFunc1 = n -> n*n;
+Function<Integer, Integer> sumFunc2 = n -> n*3;
+//compose 先执行 参数sumFunc2 再执行 调用方sumFunc1,andThen反过来
+// 2*3=6  6*6=36
+List<Integer> r1 = numbers.stream().map(sumFunc1.compose(sumFunc2)).collect(toList());
+// 2*2=4 4*3=12
+List<Integer> r2 = numbers.stream().map(sumFunc1.andThen(sumFunc2)).collect(toList());
 ```
 
  `3.Consumer :  一个没有返回值的function, 一般用在forEach  有andThen 默认接口函数实现`
 
 ```java
-        List<Integer> testNums = Arrays.asList(1, 2, 3);
-        Consumer<Integer> numConsumer = n -> n = n*2;
-        testNums.stream().forEach(numConsumer);
+List<Integer> testNums = Arrays.asList(1, 2, 3);
+Consumer<Integer> numConsumer = n -> n = n*2;
+testNums.stream().forEach(numConsumer);
 
-        //4.comparator :
-        Comparator<Integer> comparator = (t1, t2) ->t1.compareTo(t2);
-        testNums.sort(comparator);
-        Collections.reverse(testNums);
-        System.out.println(testNums);
+//4.comparator :
+Comparator<Integer> comparator = (t1, t2) ->t1.compareTo(t2);
+testNums.sort(comparator);
+Collections.reverse(testNums);
+System.out.println(testNums);
 ```
 
 <h2>Stream </h2>
@@ -107,17 +107,17 @@ List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPre
  
 
 ```java
-        List<Integer> testNums = Arrays.asList(4, 5, 6);
-        // 只输出一次 看来findFirst不仅仅有提升逼格的作用
-        Optional<Integer> matchNum = testNums.stream().filter(n -> {
-            System.out.println(" current n is : " + n);
-            return n % 2 == 0;
-        }).findFirst();
-        // 输出三次
-        Integer matchNum2 = testNums.stream().filter(n -> {
-            System.out.println(" current e is : " + n);
-            return n % 2 == 0;
-        }).collect(toList()).get(0);
+List<Integer> testNums = Arrays.asList(4, 5, 6);
+// 只输出一次 看来findFirst不仅仅有提升逼格的作用
+Optional<Integer> matchNum = testNums.stream().filter(n -> {
+    System.out.println(" current n is : " + n);
+    return n % 2 == 0;
+}).findFirst();
+// 输出三次
+Integer matchNum2 = testNums.stream().filter(n -> {
+    System.out.println(" current e is : " + n);
+    return n % 2 == 0;
+}).collect(toList()).get(0);
 ```
  
 
@@ -126,8 +126,8 @@ List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPre
 
 
 ```java
-        List<String> numStrings = Arrays.asList("1", "2", "3");
-        int sum = numStrings.stream().mapToInt(Integer::valueOf).sum();
+List<String> numStrings = Arrays.asList("1", "2", "3");
+int sum = numStrings.stream().mapToInt(Integer::valueOf).sum();
 ```
 
 
@@ -138,10 +138,10 @@ List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPre
 
 ```java      
         
-        BigDecimal initSum = BigDecimal.ONE;
-        List<BigDecimal> numList = Arrays.asList(new BigDecimal(3), new BigDecimal(4));
-        Optional<BigDecimal> finalSum = numList.stream().reduce((n1, n2) -> n1.add(n2)); // 7
-        BigDecimal resultSum = numList.stream().reduce(initSum, (n1, n2) -> n1.add(n2));// 8
+BigDecimal initSum = BigDecimal.ONE;
+List<BigDecimal> numList = Arrays.asList(new BigDecimal(3), new BigDecimal(4));
+Optional<BigDecimal> finalSum = numList.stream().reduce((n1, n2) -> n1.add(n2)); // 7
+BigDecimal resultSum = numList.stream().reduce(initSum, (n1, n2) -> n1.add(n2));// 8
 ```     
  
 
@@ -152,16 +152,16 @@ List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPre
 
 ```java     
         
-        Order order01 = new Order(1, "01", Arrays.asList(new OrderDetail(1), new OrderDetail(1)));
-        Order order02 = new Order(2, "02", Arrays.asList(new OrderDetail(3), new OrderDetail(4)));
-        Order order03 = new Order(1, "03", Arrays.asList(new OrderDetail(5), new OrderDetail(6)));
-        List<Order> orders = Arrays.asList(order01, order02, order03);
-        List<OrderDetail> orderDetailList = orders.stream().flatMap(o -> o.getOrderDetails().stream()).collect(toList());
+Order order01 = new Order(1, "01", Arrays.asList(new OrderDetail(1), new OrderDetail(1)));
+Order order02 = new Order(2, "02", Arrays.asList(new OrderDetail(3), new OrderDetail(4)));
+Order order03 = new Order(1, "03", Arrays.asList(new OrderDetail(5), new OrderDetail(6)));
+List<Order> orders = Arrays.asList(order01, order02, order03);
+List<OrderDetail> orderDetailList = orders.stream().flatMap(o -> o.getOrderDetails().stream()).collect(toList());
 
-        // parallelStream 并行流,使用了 java7 的fork/join 进行处理, 提升了速度
-        List<String> numStrings2 = Arrays.asList("1", "2", "3");
-        int sum2 = numStrings.parallelStream().mapToInt(Integer::valueOf).sum();
-    }
+// parallelStream 并行流,使用了 java7 的fork/join 进行处理, 提升了速度
+List<String> numStrings2 = Arrays.asList("1", "2", "3");
+int sum2 = numStrings.parallelStream().mapToInt(Integer::valueOf).sum();
+    
 ```
 
 
@@ -177,15 +177,15 @@ List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPre
 
 ```java
 
-        Order order01 = new Order(1, "01", Arrays.asList(new OrderDetail(1), new OrderDetail(1)));
-        Order order02 = new Order(2, "02", Arrays.asList(new OrderDetail(3), new OrderDetail(4)));
-        Order order03 = new Order(1, "03", Arrays.asList(new OrderDetail(5), new OrderDetail(6)));
-        List<Order> orders = Arrays.asList(order01, order02, order03);
-        //map(keyFunc, valueFunc) ,在 key重复的时候 运行会报错
-        Map<Integer, Order> orderMap = orders.stream().collect(Collectors.toMap(o -> o.getId(), o -> o));
-        //map(keyFunction,valueFunc,mergeFunction)  mergeFunction 指定在key重复的时候使用哪一个value
-        Map<Integer, Order> orderMap2 = orders.stream().collect(Collectors.toMap(o -> o.getId(), o -> o, (k1, k2) -> k1));
-        orderMap.entrySet().forEach(e -> System.out.println(e.getKey()));
+Order order01 = new Order(1, "01", Arrays.asList(new OrderDetail(1), new OrderDetail(1)));
+Order order02 = new Order(2, "02", Arrays.asList(new OrderDetail(3), new OrderDetail(4)));
+Order order03 = new Order(1, "03", Arrays.asList(new OrderDetail(5), new OrderDetail(6)));
+List<Order> orders = Arrays.asList(order01, order02, order03);
+//map(keyFunc, valueFunc) ,在 key重复的时候 运行会报错
+Map<Integer, Order> orderMap = orders.stream().collect(Collectors.toMap(o -> o.getId(), o -> o));
+//map(keyFunction,valueFunc,mergeFunction)  mergeFunction 指定在key重复的时候使用哪一个value
+Map<Integer, Order> orderMap2 = orders.stream().collect(Collectors.toMap(o -> o.getId(), o -> o, (k1, k2) -> k1));
+orderMap.entrySet().forEach(e -> System.out.println(e.getKey()));
 ```
 
 
@@ -194,9 +194,9 @@ List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPre
 
 ```java
 
-        Map<Integer, List<Order>> orderGroupMap = orders.stream().collect(Collectors.groupingBy(Order::getId));
+Map<Integer, List<Order>> orderGroupMap = orders.stream().collect(Collectors.groupingBy(Order::getId));
 
-        Map<Integer, Integer> groupNumMap = orders.stream().collect(Collectors.groupingBy(Order::getId, Collectors.summingInt(p -> 1)));
+Map<Integer, Integer> groupNumMap = orders.stream().collect(Collectors.groupingBy(Order::getId, Collectors.summingInt(p -> 1)));
 
 ```
 
@@ -207,16 +207,16 @@ List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPre
 
 ```java
 @Test
-    public void testFilerChangeObject() {
-        List<String> nums = Arrays.asList("1", "5");
-        nums = nums.stream().filter(e -> Integer.parseInt(e) > 2).collect(toList());
-        nums.forEach(e -> e = e + "aaa");
-        System.out.println(nums);  // [1,5]
+public void testFilerChangeObject() {
+    List<String> nums = Arrays.asList("1", "5");
+    nums = nums.stream().filter(e -> Integer.parseInt(e) > 2).collect(toList());
+    nums.forEach(e -> e = e + "aaa");
+    System.out.println(nums);  // [1,5]
  
-        List<Order> orders = Arrays.asList(new Order(1, "001", null), new Order(2, "002", null));
-        orders.stream().filter(e -> e.getId()>1).forEach(o -> o.setNo("111111"));
-        System.out.println(orders);
-    }
+    List<Order> orders = Arrays.asList(new Order(1, "001", null), new Order(2, "002", null));
+    orders.stream().filter(e -> e.getId()>1).forEach(o -> o.setNo("111111"));
+    System.out.println(orders);
+}
 ```
 
 
