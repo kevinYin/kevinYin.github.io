@@ -98,6 +98,7 @@ public class TestLambda {
 
 >分顺序和分行 两种方式, 常用的有filter,map,reduce,flatMap Parallel Stream 并行方式来执行以 提升效率
 
+
  `1.filter,应用:找到集合第一个符合条件的对象并返回,filter().findFirst()组合可避免遍历完所有对象`
  
 
@@ -124,7 +125,7 @@ public class TestLambda {
         int sum = numStrings.stream().mapToInt(Integer::valueOf).sum();
 ```
   
- 
+
 `3.reduce 对stream的元素进行增减操作`
 
 
