@@ -13,7 +13,7 @@ permalink: /Priest/java8-in-action
 
 >能够访问局部对应的外部区域的局部final变量，以及成员变量和静态变量
 
-```
+```java
 public class TestLambda {
 
     static int localVar1;
@@ -46,7 +46,7 @@ public class TestLambda {
  
  `1. Predicate,boolean型函数,一般用于过滤`
  
-```
+```java
         List<String> strList = Arrays.asList("123459", "1234", "2345345", "1230989");
         // filterStr: [123459] , filter 的第二个参数就是 Predicate
         List<String> filterStr = strList.stream().filter(s -> s.startsWith("1") && s.length() > 4 && s.endsWith("9") && s.length() < 7).collect(toList());
@@ -62,7 +62,7 @@ public class TestLambda {
 ```
   `2. Function 返回一个单一结果,实践上 一般用于 对象转换`
   
-```   
+```java 
         List<Integer> numbers = Arrays.asList(2);
         Function<Integer, String> convertToStrFunc = n -> "00000" + n * n;
         List<String> numStrs = numbers.stream().map(convertToStrFunc).collect(toList());
@@ -76,10 +76,9 @@ public class TestLambda {
         List<Integer> r2 = numbers.stream().map(sumFunc1.andThen(sumFunc2)).collect(toList());
 ```
 
+ `3.Consumer :  一个没有返回值的function, 一般用在forEach  有andThen 默认接口函数实现`
 
-    3.Consumer :  一个没有返回值的function, 一般用在forEach  有andThen 默认接口函数实现`
-
-```
+```java
         List<Integer> testNums = Arrays.asList(1, 2, 3);
         Consumer<Integer> numConsumer = n -> n = n*2;
         testNums.stream().forEach(numConsumer);
@@ -99,7 +98,7 @@ public class TestLambda {
  `1.filter,应用:找到集合第一个符合条件的对象并返回,filter().findFirst()组合可避免遍历完所有对象`
 
 
-	``` 
+	```java
         List<Integer> testNums = Arrays.asList(4, 5, 6);
         // 只输出一次 看来findFirst不仅仅有提升逼格的作用
         Optional<Integer> matchNum = testNums.stream().filter(n -> {
@@ -131,6 +130,7 @@ public class TestLambda {
         int sum2 = numStrings.parallelStream().mapToInt(Integer::valueOf).sum();
     }
 ```
+
 
 <h2>Collectors </h2>
 
