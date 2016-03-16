@@ -133,13 +133,14 @@ public class TestLambda {
 `3.reduce 对stream的元素进行增减操作`
 
 
+
 ```java      
         
         BigDecimal initSum = BigDecimal.ONE;
         List<BigDecimal> numList = Arrays.asList(new BigDecimal(3), new BigDecimal(4));
         Optional<BigDecimal> finalSum = numList.stream().reduce((n1, n2) -> n1.add(n2)); // 7
         BigDecimal resultSum = numList.stream().reduce(initSum, (n1, n2) -> n1.add(n2));// 8
- ```     
+```     
  
 
 
@@ -147,7 +148,7 @@ public class TestLambda {
 
 
 
-  ```java     
+```java     
         
         Order order01 = new Order(1, "01", Arrays.asList(new OrderDetail(1), new OrderDetail(1)));
         Order order02 = new Order(2, "02", Arrays.asList(new OrderDetail(3), new OrderDetail(4)));
@@ -160,6 +161,7 @@ public class TestLambda {
         int sum2 = numStrings.parallelStream().mapToInt(Integer::valueOf).sum();
     }
 ```
+
 
 
 
@@ -193,7 +195,7 @@ public class TestLambda {
         Map<Integer, List<Order>> orderGroupMap = orders.stream().collect(Collectors.groupingBy(Order::getId));
 
         Map<Integer, Integer> groupNumMap = orders.stream().collect(Collectors.groupingBy(Order::getId, Collectors.summingInt(p -> 1)));
-    }
+
 ```
 
 
