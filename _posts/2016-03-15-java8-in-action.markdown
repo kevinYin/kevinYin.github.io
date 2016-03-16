@@ -13,6 +13,8 @@ permalink: /Priest/java8-in-action
 
 >能够访问局部对应的外部区域的局部final变量，以及成员变量和静态变量
 
+
+
 ```java
 public class TestLambda {
 
@@ -39,11 +41,13 @@ public class TestLambda {
 }
 ```
 
+
 <h2>java8 内置函数式接口</h2>
 
 >包含:Predicate Function Consumer Supplier Optional Comparator
- 其中常用的 Predicate Function Consumer 比较多    
- 
+ 其中常用的 Predicate Function Consumer 比较多
+  
+
  `1. Predicate,boolean型函数,一般用于过滤`
  
 ```java
