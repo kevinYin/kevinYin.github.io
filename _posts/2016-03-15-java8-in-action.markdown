@@ -18,28 +18,28 @@ permalink: /Priest/java8-in-action
 ```java
 public class TestLambda {
 
-static int localVar1;
+  static int localVar1;
 
-int localVar2;
+   int localVar2;
     
-@Test
-public void testVar() {
-    // sum作为 局部对应的外部区域的局部final变量,在编译时被隐式当做final变量处理
-    BigDecimal sum = BigDecimal.ZERO;
-    List<BigDecimal> numList = Arrays.asList(new BigDecimal(3), new BigDecimal(4));
-    /**numList.stream().forEach(n -> {sum = sum.add(n);}); 
-     * 编译出错,java: 从lambda 表达式引用的本地变量必须是最终变量或实际上的最终变量
-     */
-    System.out.println(sum.floatValue()); //0.0
-    BigDecimal numSum = numList.stream().reduce(sum, (n1, n2) -> n1.add(n2));
-    System.out.println(numSum.floatValue()); //7.0
-    //  对成员变量和静态变量 拥有读写权利
-    numList.stream().forEach(n -> {
-        localVar1 = 3;
-        localVar2 = 4;
-    });
-    System.out.println(localVar1 + " " + localVar2);  // 3 4
-}
+	@Test
+	public void testVar() {
+	    // sum作为 局部对应的外部区域的局部final变量,在编译时被隐式当做final变量处理
+	    BigDecimal sum = BigDecimal.ZERO;
+	    List<BigDecimal> numList = Arrays.asList(new BigDecimal(3), new BigDecimal(4));
+	    /**numList.stream().forEach(n -> {sum = sum.add(n);}); 
+	     * 编译出错,java: 从lambda 表达式引用的本地变量必须是最终变量或实际上的最终变量
+	     */
+	    System.out.println(sum.floatValue()); //0.0
+	    BigDecimal numSum = numList.stream().reduce(sum, (n1, n2) -> n1.add(n2));
+	    System.out.println(numSum.floatValue()); //7.0
+	    //  对成员变量和静态变量 拥有读写权利
+	    numList.stream().forEach(n -> {
+	        localVar1 = 3;
+	        localVar2 = 4;
+	    });
+	    System.out.println(localVar1 + " " + localVar2);  // 3 4
+	}
 }
 ```
 
