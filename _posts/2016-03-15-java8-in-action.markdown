@@ -96,13 +96,12 @@ public class TestLambda {
 
 <h2>Stream </h2>
 
->分顺序和分行 两种方式, 常用的有filter,map,reduce,flatMap
-      Parallel Stream 并行方式来执行以 提升效率
+>分顺序和分行 两种方式, 常用的有filter,map,reduce,flatMap Parallel Stream 并行方式来执行以 提升效率
 
  `1.filter,应用:找到集合第一个符合条件的对象并返回,filter().findFirst()组合可避免遍历完所有对象`
+ 
 
-
-	```java
+```java
         List<Integer> testNums = Arrays.asList(4, 5, 6);
         // 只输出一次 看来findFirst不仅仅有提升逼格的作用
         Optional<Integer> matchNum = testNums.stream().filter(n -> {
@@ -114,14 +113,23 @@ public class TestLambda {
             System.out.println(" current e is : " + n);
             return n % 2 == 0;
         }).collect(toList()).get(0);
+ ```
+ 
+  ```java
         //2.map,映射对象到另外一个对象中去
         List<String> numStrings = Arrays.asList("1", "2", "3");
         int sum = numStrings.stream().mapToInt(Integer::valueOf).sum();
+  ```
+  
+  ```java      
         //3.reduce 对stream的元素进行增减操作
         BigDecimal initSum = BigDecimal.ONE;
         List<BigDecimal> numList = Arrays.asList(new BigDecimal(3), new BigDecimal(4));
         Optional<BigDecimal> finalSum = numList.stream().reduce((n1, n2) -> n1.add(n2)); // 7
         BigDecimal resultSum = numList.stream().reduce(initSum, (n1, n2) -> n1.add(n2));// 8
+ ```     
+  
+  ```java     
         //4. flatMap 用于获取 所有集合对象的子集合
         Order order01 = new Order(1, "01", Arrays.asList(new OrderDetail(1), new OrderDetail(1)));
         Order order02 = new Order(2, "02", Arrays.asList(new OrderDetail(3), new OrderDetail(4)));
