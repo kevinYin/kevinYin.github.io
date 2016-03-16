@@ -124,6 +124,7 @@ public class TestLambda {
         int sum = numStrings.stream().mapToInt(Integer::valueOf).sum();
 ```
   
+ 
 `3.reduce 对stream的元素进行增减操作`
 
 
