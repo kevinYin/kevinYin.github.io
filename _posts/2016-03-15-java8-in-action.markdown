@@ -27,7 +27,9 @@ public class TestLambda {
         // sum作为 局部对应的外部区域的局部final变量,在编译时被隐式当做final变量处理
         BigDecimal sum = BigDecimal.ZERO;
         List<BigDecimal> numList = Arrays.asList(new BigDecimal(3), new BigDecimal(4));
-        //numList.stream().forEach(n -> {sum = sum.add(n);}); //编译出错,java: 从lambda 表达式引用的本地变量必须是最终变量或实际上的最终变量
+        /**numList.stream().forEach(n -> {sum = sum.add(n);}); 
+         * 编译出错,java: 从lambda 表达式引用的本地变量必须是最终变量或实际上的最终变量
+         */
         System.out.println(sum.floatValue()); //0.0
         BigDecimal numSum = numList.stream().reduce(sum, (n1, n2) -> n1.add(n2));
         System.out.println(numSum.floatValue()); //7.0
@@ -51,33 +53,33 @@ public class TestLambda {
  `1. Predicate,boolean型函数,一般用于过滤`
  
 ```java
-        List<String> strList = Arrays.asList("123459", "1234", "2345345", "1230989");
-        // filterStr: [123459] , filter 的第二个参数就是 Predicate
-        List<String> filterStr = strList.stream().filter(s -> s.startsWith("1") && s.length() > 4 && s.endsWith("9") && s.length() < 7).collect(toList());
-        //一般条件很长的时候 代码可读性会比较低,所以 项目中的做法会这样
-        Predicate<String> stringPredicate = s -> s.startsWith("1") && s.length() > 4 && s.endsWith("9") && s.length() < 7;
-        List<String> filterStr2 = strList.stream().filter(stringPredicate).collect(toList());
-        //如果是特别长的情况,会是这样
-        Predicate<String> stringPredicate1 = s -> s.startsWith("1");
-        Predicate<String> stringPredicate2 = s -> s.length() > 4;
-        Predicate<String> stringPredicate3 = s -> s.endsWith("9");
-        Predicate<String> stringPredicate4 = s -> s.length() < 7;
-        List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPredicate2).and(stringPredicate3).and(stringPredicate4)).collect(toList());
+List<String> strList = Arrays.asList("123459", "1234", "2345345", "1230989");
+// filterStr: [123459] , filter 的第二个参数就是 Predicate
+List<String> filterStr = strList.stream().filter(s -> s.startsWith("1") && s.length() > 4 && s.endsWith("9") && s.length() < 7).collect(toList());
+//一般条件很长的时候 代码可读性会比较低,所以 项目中的做法会这样
+Predicate<String> stringPredicate = s -> s.startsWith("1") && s.length() > 4 && s.endsWith("9") && s.length() < 7;
+List<String> filterStr2 = strList.stream().filter(stringPredicate).collect(toList());
+//如果是特别长的情况,会是这样
+Predicate<String> stringPredicate1 = s -> s.startsWith("1");
+Predicate<String> stringPredicate2 = s -> s.length() > 4;
+Predicate<String> stringPredicate3 = s -> s.endsWith("9");
+Predicate<String> stringPredicate4 = s -> s.length() < 7;
+List<String> filterStr3 = strList.stream().filter(stringPredicate1.and(stringPredicate2).and(stringPredicate3).and(stringPredicate4)).collect(toList());
 ```
   `2. Function 返回一个单一结果,实践上 一般用于 对象转换`
   
 ```java 
-        List<Integer> numbers = Arrays.asList(2);
-        Function<Integer, String> convertToStrFunc = n -> "00000" + n * n;
-        List<String> numStrs = numbers.stream().map(convertToStrFunc).collect(toList());
-        //function 有几个常用的 接口 默认方法实现, compose  andThen
-        Function<Integer, Integer> sumFunc1 = n -> n*n;
-        Function<Integer, Integer> sumFunc2 = n -> n*3;
-        //compose 先执行 参数sumFunc2 再执行 调用方sumFunc1,andThen反过来
-        // 2*3=6  6*6=36
-        List<Integer> r1 = numbers.stream().map(sumFunc1.compose(sumFunc2)).collect(toList());
-        // 2*2=4 4*3=12
-        List<Integer> r2 = numbers.stream().map(sumFunc1.andThen(sumFunc2)).collect(toList());
+	List<Integer> numbers = Arrays.asList(2);
+	Function<Integer, String> convertToStrFunc = n -> "00000" + n * n;
+	List<String> numStrs = numbers.stream().map(convertToStrFunc).collect(toList());
+	//function 有几个常用的 接口 默认方法实现, compose  andThen
+	Function<Integer, Integer> sumFunc1 = n -> n*n;
+	Function<Integer, Integer> sumFunc2 = n -> n*3;
+	//compose 先执行 参数sumFunc2 再执行 调用方sumFunc1,andThen反过来
+	// 2*3=6  6*6=36
+	List<Integer> r1 = numbers.stream().map(sumFunc1.compose(sumFunc2)).collect(toList());
+	// 2*2=4 4*3=12
+	List<Integer> r2 = numbers.stream().map(sumFunc1.andThen(sumFunc2)).collect(toList());
 ```
 
  `3.Consumer :  一个没有返回值的function, 一般用在forEach  有andThen 默认接口函数实现`
