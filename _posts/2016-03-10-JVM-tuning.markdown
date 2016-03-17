@@ -57,6 +57,22 @@ permalink: /Priest/JVM-tuning-in-action
 <h2>理解GC日志</h2>
 
 为了进一步了解GC的信息，其中最基本的就是GC的日志了，于是写个程序在运行过程中打印其中的GC日志信息，来理解GC的过程。
+
+```java
+public class TestGC {
+
+	private static final  int _1MB = 1024*1024;
+		
+	public static void main(String[] args) {
+	    byte[] a1,a2,a3;
+	    String testString = "";
+	    for (int i = 0; i < 10; i++) {
+	        a1 = new byte[_1MB * 4];
+	        a2 = new byte[5 * _1MB];
+	    }
+	}
+}
+```
  
 其 JVM的参数设置为：
 
@@ -67,7 +83,29 @@ permalink: /Priest/JVM-tuning-in-action
 
 打印出的日志如下：
 
+	[GC (Allocation Failure) [PSYoungGen: 5611K->512K(9216K)] 14827K->9736K(19456K), 0.0011273 secs] [Times: user=0.01 sys=0.00, real=0.00 secs] 
+	[GC (Allocation Failure) [PSYoungGen: 5632K->496K(9216K)] 14856K->9720K(19456K), 0.0010376 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+	[GC (Allocation Failure) --[PSYoungGen: 4755K->4755K(9216K)] 13979K->13979K(19456K), 0.0019501 secs] [Times: user=0.00 sys=0.00, real=0.00 secs] 
+	[Full GC (Ergonomics) [PSYoungGen: 4755K->0K(9216K)] [ParOldGen: 9224K->4509K(10240K)] 13979K->4509K(19456K), [Metaspace: 3019K->3019K(1056768K)], 0.0056390 secs] [Times: user=0.02 sys=0.00, real=0.01 secs] 
+	......
+	Heap
+	 PSYoungGen      total 9216K, used 5202K [0x00000007bf600000, 	0x00000007c0000000, 0x00000007c0000000)
+ 	  eden space 8192K, 63% used 		[0x00000007bf600000,0x00000007bfb14930,0x00000007bfe00000)
+ 	 from space 1024K, 0% used [0x00000007bfe00000,0x00000007bfe00000,0x00000007bff00000)
+ 	  to   space 1024K, 0% used [0x00000007bff00000,0x00000007bff00000,0x00000007c0000000)
+	 ParOldGen       total 10240K, used 8704K [0x00000007bec00000, 0x00000007bf600000, 0x00000007bf600000)
+	  object space 10240K, 85% used [0x00000007bec00000,0x00000007bf480020,0x00000007bf600000)
+	 Metaspace       used 3025K, capacity 4494K, committed 4864K, reserved 1056768K
+	  class space    used 333K, capacity 386K, committed 512K, reserved 1048576K
 
+`解读:`
+(1)`[GC (Allocation Failure) [PSYoungGen: 5611K->512K(9216K)] 14827K->9736K(19456K), 0.0011273 secs] [Times: user=0.01 sys=0.00, real=0.00 secs]`
+翻译：young GC：【年轻代空间：GC前该空间使用大小是5611K->GC后该空间使用512K大小（该区域总的大小是9216K）】 当前的java堆使用大小是14827K -> GC 后还占用9736K(java堆得大小是19456K)，本次GC耗时0.0011273S
+
+（2）`[Full GC (Ergonomics) [PSYoungGen: 4755K->0K(9216K)] [ParOldGen: 9224K->4509K(10240K)] 13979K->4509K(19456K), [Metaspace: 3019K->3019K(1056768K)], 0.0056390 secs]`
+翻译：full GC：【年轻代空间：GC前该空间使用大小是4755K->GC后该空间使用0大小（该区域总的大小是9216K）】 【老年代空间：GC前该空间使用大小是9224K->GC后该空间使用4509K大小（该区域总的大小是10240K）】当前的java堆使用大小是13979K -> GC 后还占用4509K(java堆得大小是19456K)，【元空间：GC前该空间使用大小是3019K->GC后该空间使用3019K大小（该区域总的大小是1056768K】，本次GC耗时0.0056390
+
+备注：Metaspace 是 java8 替代永久代的一个内存空间，之前的InternedStrings 也从PermanentSpace转移到MetaSpace中，MetaSpace可以自动扩展。
 
 <h2>总结</h2>
 
