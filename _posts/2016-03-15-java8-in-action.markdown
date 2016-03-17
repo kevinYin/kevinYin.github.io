@@ -2,7 +2,7 @@
 layout: post
 title:  "java8 实践小结"
 date:   2016-03-15 22:16
-categories: java SE
+categories: java
 permalink: /Priest/java8-in-action
 
 ---
