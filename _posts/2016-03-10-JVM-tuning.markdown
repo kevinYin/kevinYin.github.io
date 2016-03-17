@@ -59,18 +59,18 @@ permalink: /Priest/JVM-tuning-in-action
 为了进一步了解GC的信息，其中最基本的就是GC的日志了，于是写个程序在运行过程中打印其中的GC日志信息，来理解GC的过程。
 
 ```java
-	public class TestGC {
+public class TestGC {
 
-    private static final  int _1MB = 1024*1024;
-
-    public static void main(String[] args) {
-        byte[] a1,a2,a3;
-        String testString = "";
-        for (int i = 0; i < 10; i++) {
-            a1 = new byte[_1MB * 4];
-            a2 = new byte[5 * _1MB];
-        }
-    }
+	private static final  int _1MB = 1024*1024;
+		
+	public static void main(String[] args) {
+	    byte[] a1,a2,a3;
+	    String testString = "";
+	    for (int i = 0; i < 10; i++) {
+	        a1 = new byte[_1MB * 4];
+	        a2 = new byte[5 * _1MB];
+	    }
+	}
 }
 ```
  
