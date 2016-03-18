@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "JVM调优实践"
+title:  "JVM调优实践 前篇"
 date:   2016-03-12 18:16
 categories: JVM
 permalink: /Priest/JVM-tuning-in-action
@@ -107,8 +107,34 @@ public class TestGC {
 
 备注：Metaspace 是 java8 替代永久代的一个内存空间，之前的InternedStrings 也从PermanentSpace转移到MetaSpace中，MetaSpace可以自动扩展。
 
-<h2>总结</h2>
+<h2>JVM参数的获取</h2>
 
+调优前，需要进行JVM目前已经设置的参数来做参考，目前JVM有提供以下参数进行JVM参数的获取。
+
+`java -server -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:+PrintFlagsFinal Benchmark` 用来获取所有的JVM的参数，一大坨。
+
+加上“：” 过滤出已经设置的JVM的参数，例如：
+`java -server -XX:+UnlockExperimentalVMOptions -XX:+UnlockDiagnosticVMOptions -XX:+PrintFlagsFinal Benchmark | grep ":"`  打印出的结果如是：
+
+>     intx CICompilerCount                         := 3                                   {product}
+    uintx InitialHeapSize                          := 134217728                           {product}
+    uintx MaxHeapSize                              := 2147483648                          {product}
+    uintx MaxNewSize                               := 715653120                           {product}
+    uintx MinHeapDeltaBytes                        := 524288                              {product}
+    uintx NewSize                                  := 44564480                            {product}
+    uintx OldSize                                  := 89653248                            {product}
+     bool PrintFlagsFinal                          := true                                {product}
+     bool UnlockDiagnosticVMOptions                := true                                {diagnostic}
+     bool UnlockExperimentalVMOptions              := true                                {experimental}
+     bool UseCompressedClassPointers               := true                                {lp64_product}
+     bool UseCompressedOops                        := true                                {lp64_product}
+     bool UseFastUnorderedTimeStamps               := true                                {experimental}
+     bool UseParallelGC                            := true                                {product}
+ 
+
+ 可以看到JVM的目前的设置参数，可以看到 java8 默认的收集器就是 `UseParallelGC `....balala。
+ 
+ 本篇到此结束，讲完了基本调优的目的 ，关联参数 以及 查看理解 GC日志和获取当前JVM的参数，接下来，就讲下几个JVM 自带的工具来定位 GC问题 ，最后再酿造场景进行调优分析。
 
 
 
