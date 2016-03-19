@@ -28,8 +28,10 @@ jps就是用于查看所有正在运行的虚拟机进程，它是后面其他�
 **2.jps -v 获取启动时的JVM参数**
 
 >kevinYin.github.io git:master # jps -v
+
 >6086 Bootstrap -Djava.util.logging.config.file=/Library/tomcat/>apache-tomcat-7.0.68//conf/logging.properties -
 ······
+
 >-Xms672m -Xmx672m -Xmn200m -Xss300k -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+CMSClassUnloadingEnabled -XX:+DisableExplicitGC -verbose:gc -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintTenuringDistribution -Xloggc:/Library/tomcat/apache-tomcat-7.0.68/logs/gc_log.out
 
 JPS 还有几个参数可以进行使用 -q -m -l，但都没很大用处，就不照搬教科书了，记住这个就差不多了。
@@ -121,12 +123,13 @@ Concurrent Mark-Sweep GC
 <h3>jhat:分析JVM堆转储快照工具</h3>
 分析dump文件的：
 >kevinYin.github.io git:master # jhat heapDump                                                    
-Reading from heapDump...
+
+>Reading from heapDump...
 Dump file created Sat Mar 19 16:09:25 CST 2016
 Snapshot read, resolving...
 Resolving 822548 objects...
 Chasing references, expect 164 dots.........................
-Eliminating duplicate references.........................................................
+Eliminating duplicate references............................
 Snapshot resolved.
 Started HTTP server on port 7000
 Server is ready.
