@@ -10,7 +10,3 @@ permalink: /Priest/one-time-sql-opt-experience2
 
 
 <h2>JDK工具</h2>
- 
-`前言：` JDK自带了很多工具用于监控以及处理故障（jps jmap jstat 等），同时目前也有其他专业分析JVM异常的工具，比如eclipse的MAT（Memory Analyse Tool），都可以用于分析JVM的故障。
-
-
