@@ -1,9 +1,9 @@
 ---
 layout: post
-title:  "记一次线上SQL优化2"
-date:   2016-03-10 00:16
-categories: SQL
-permalink: /Priest/one-experience2
+title:  "JVM调优实践 中篇"
+date:   2016-03-19 18:16
+categories: JVM
+permalink: /Priest/JVM-tuning-in-action-mid
 
 ---
 
