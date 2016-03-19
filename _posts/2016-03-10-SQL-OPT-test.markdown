@@ -93,6 +93,7 @@ Concurrent Mark-Sweep GC
    G1HeapRegionSize         = 0 (0.0MB)
 
 **2.jmap -histo pid : 显示 类、实例数量以及容量等**
+
 > num       #instances         #bytes  class name
 
 >   1:        152960       22569120  [C
