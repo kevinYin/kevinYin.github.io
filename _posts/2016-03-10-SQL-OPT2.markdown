@@ -1,12 +1,11 @@
 ---
 layout: post
-title:  "22222"
-date:   2016-03-19 18:16
+title:  "记一次线上SQL优化"
+date:   2016-03-10 00:16
 categories: SQL
-permalink: /Priest/test
+permalink: /Priest/one-time-sql-opt-experience2
 
 ---
 
 
-
-<h2>JDK工具</h2>
+<h2>--------</h2>
