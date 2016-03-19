@@ -3,7 +3,7 @@ layout: post
 title:  "JVM调优实践 中篇"
 date:   2016-03-10 00:16
 categories: JVM
-permalink: /Priest/JVM-tuning-in-action-mid
+permalink: /Priest/one-time-sql-opt-experience2
 
 ---
 
