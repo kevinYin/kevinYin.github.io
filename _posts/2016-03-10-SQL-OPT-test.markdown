@@ -3,7 +3,7 @@ layout: post
 title:  "JVM调优实践 中篇"
 date:   2016-03-10 00:16
 categories: JVM
-permalink: /Priest/one-time-sql-opt-experience2
+permalink: /Priest/JVM-tuning-in-action-mid
 
 ---
 
@@ -122,6 +122,7 @@ Concurrent Mark-Sweep GC
 
 <h3>jhat:分析JVM堆转储快照工具</h3>
 分析dump文件的：
+
 >kevinYin.github.io git:master # jhat heapDump                                                    
 
 >Reading from heapDump...
