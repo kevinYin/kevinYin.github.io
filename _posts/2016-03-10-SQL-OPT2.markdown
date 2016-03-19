@@ -15,18 +15,17 @@ permalink: /Priest/one-experience2
 <h3>JPS:查看虚拟机进程</h3>
 
 jps就是用于查看所有正在运行的虚拟机进程，它是后面其他工具分析JVM 问题的基础，用法如下。
->1.获取进程号以及主类名称
 
->kevinYin.github.io git:master # jps                                                                       
+**1.获取进程号以及主类名称**
 
+>kevinYin.github.io git:master # jps   
+                                                                    
 >6086 Bootstrap
-
 >7018 Launcher
-
 >14459 Jps 
 
 
->2.jps -v 获取启动时的JVM参数
+**2.jps -v 获取启动时的JVM参数**
 
 >kevinYin.github.io git:master # jps -v
 >6086 Bootstrap -Djava.util.logging.config.file=/Library/tomcat/>apache-tomcat-7.0.68//conf/logging.properties -
@@ -71,7 +70,7 @@ jstat 主要用来获取当前java 堆信息，比如 Eden区和2个幸存区，
 
 jmap主要就是用于生成java堆转储快照 以及查看java堆得详细信息。jmap有好几个参数，但是常用的就那一两个：
 
-1.jmap -heap pid  (显示堆信息，使用何种回收器，分代情况)
+**1.jmap -heap pid  (显示堆信息，使用何种回收器，分代情况)**
 
 >kevinYin.github.io git:master # jmap -heap 6086                                                  
 > ·····
@@ -93,7 +92,7 @@ Concurrent Mark-Sweep GC
    MaxMetaspaceSize         = 17592186044415 MB
    G1HeapRegionSize         = 0 (0.0MB)
 
-2.jmap -histo pid : 显示 类、实例数量以及容量等
+**2.jmap -histo pid : 显示 类、实例数量以及容量等**
 > num       #instances         #bytes  class name
 
 >   1:        152960       22569120  [C
@@ -106,7 +105,8 @@ Concurrent Mark-Sweep GC
 
 >   5:         58164        1861248  java.util.HashMap$Node
  
-3.生成dump文件
+**3.生成dump文件**
+
 >kevinYin.github.io git:master # jmap -dump:format=b,file=jvm.dump 6086 
                         
 >Dumping heap to /code/github/kevinYin.github.io/jvm.dump ...
@@ -124,8 +124,8 @@ Reading from heapDump...
 Dump file created Sat Mar 19 16:09:25 CST 2016
 Snapshot read, resolving...
 Resolving 822548 objects...
-Chasing references, expect 164 dots....................................................................................................................................................................
-Eliminating duplicate references....................................................................................................................................................................
+Chasing references, expect 164 dots.........................
+Eliminating duplicate references.........................................................
 Snapshot resolved.
 Started HTTP server on port 7000
 Server is ready.
