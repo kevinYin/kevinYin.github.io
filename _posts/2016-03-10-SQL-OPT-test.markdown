@@ -2,7 +2,7 @@
 layout: post
 title:  "记一次线上SQL优化2"
 date:   2016-03-10 00:16
-categories: SQL
+categories: JVM
 permalink: /Priest/one-time-sql-opt-experience2
 
 ---
