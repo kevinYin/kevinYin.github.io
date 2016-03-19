@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "JVM调优实践 中篇"
-date:   2016-03-10 00:16
+date:   2016-03-19 00:16
 categories: JVM
 permalink: /Priest/JVM-tunin-2
 
