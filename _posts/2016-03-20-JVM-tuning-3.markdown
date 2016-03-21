@@ -15,7 +15,7 @@ hehe
 <h2>场景</h2>
 模拟一个请求调用的一个方法，不断地制造大量的对象存在一个map里，让触发full  GC，导致系统访问比较卡顿。
 
-  ```java
+```java
  private static ConcurrentHashMap<String,byte[]> bigMap = new ConcurrentHashMap<>();
 
     @RequestMapping("gc")
