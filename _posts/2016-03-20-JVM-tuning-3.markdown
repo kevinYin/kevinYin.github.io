@@ -25,7 +25,8 @@ permalink: /Priest/JVM-tuning-final
         }
     }
 ```
-##分析
+分析
+===
 遇到线上卡顿状态后，不是马上dump一个文件进行分析，因为jmap dump 会导致中断JVM（jmap dump 后会触发 full GC）。如果是线上，可以按照以下顺序进行：
 
 1.先获取进程号，使用jps获取tomcat的进程号。
@@ -37,6 +38,7 @@ permalink: /Priest/JVM-tuning-final
 >44422 Bootstrap
 
 2.用` jstat -gcutil 42801 1000 20` 查看下 GC次数以及当前各区空间使用情况，以及时间长度
+
 > S0     S1     E      O      M     CCS    YGC     YGCT    FGC    FGCT     GCT
 
 > 0.00 100.00 100.00 100.00  96.54  92.50     50    2.413    12    7.188    9.602
