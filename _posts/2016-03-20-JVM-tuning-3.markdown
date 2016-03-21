@@ -10,3 +10,19 @@ permalink: /Priest/JVM-tuning-final
 
 hehe
 ===
+**前言：**前两篇把调优的目的以及可用于JDK定位、分析的工具，那么本次我们将制造一个场景来进行模拟线上操作，我们厂目前JVM暂时没遇到过JVM调优问题，所以只能模拟线上环境情况来测试优化过程。
+
+<h2>场景</h2>
+模拟一个请求调用的一个方法，不断地制造大量的对象存在一个map里，让触发full  GC，导致系统访问比较卡顿。
+
+  ```java
+ private static ConcurrentHashMap<String,byte[]> bigMap = new ConcurrentHashMap<>();
+
+    @RequestMapping("gc")
+    public  void testGC(HttpServletRequest request) {
+        byte[] bytes = new byte[1024 * 1024 * 3];
+        while (true) {
+            bigMap.put(String.valueOf(Math.random()),bytes);
+        }
+    }
+```
