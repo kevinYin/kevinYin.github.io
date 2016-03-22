@@ -27,8 +27,10 @@ permalink: /Priest/JVM-tuning-final
         }
     }
 ```
+
 分析
 ===
+
 遇到线上卡顿状态后，不是马上dump一个文件进行分析，因为jmap dump 会导致中断JVM（jmap dump 会触发 full GC）。如果是线上，可以按照以下顺序进行：
 
 1.先获取进程号，使用jps获取tomcat的进程号。
@@ -63,9 +65,15 @@ young GC和full  GC在不断地增加，从第二和第三次看，full GC的数
 >Heap dump file created
 
 生成dump文件后，直接导出用MAT打开分析。
-!(dump file)[]
+![dump file](http://7xrmyq.com1.z0.glb.clouddn.com/dump2.png)
 
-分析完后，进行查看，点击 工具栏第三个图标（树状图），查看当前哪些对象最大。在第一个tab的饼状图中，点击最大的那个进去查看，是在程序的哪一步产生这个对象的创建，也就是促使JVM发生full GC 造成卡顿的程序所在。解析来进行优化即可。
+然后可以看出对象的分布情况：
+![dumpFile2](http://7xrmyq.com1.z0.glb.clouddn.com/dump12.png)
+提示看出靠前的对象 以及它的来源，根据这个就可以找到问题所在。
+
+分析完后，进行查看，点击 工具栏第三个图标（树状图），查看当前哪些对象最大,在这里就看到是ConcurrentHashMap，占了73.8%。
+
+![duqwe2](http://7xrmyq.com1.z0.glb.clouddn.com/6.png)
 
 优化
 =====
