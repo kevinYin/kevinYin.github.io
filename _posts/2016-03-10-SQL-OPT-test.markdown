@@ -9,7 +9,7 @@ permalink: /Priest/JVM-tunin-2
 
 
 <h2>JDK工具</h2>
- 
+
 `前言：` JDK自带了很多工具用于监控以及处理故障（jps jmap jstat 等），同时目前也有其他专业分析JVM异常的工具，比如eclipse的MAT（Memory Analyse Tool），都可以用于分析JVM的故障。
 
 <h3>JPS:查看虚拟机进程</h3>
@@ -19,10 +19,10 @@ jps就是用于查看所有正在运行的虚拟机进程，它是后面其他�
 **1.获取进程号以及主类名称**
 
 >kevinYin.github.io git:master # jps   
-                                                                    
+
 >6086 Bootstrap
 >7018 Launcher
->14459 Jps 
+>14459 Jps
 
 
 **2.jps -v 获取启动时的JVM参数**
@@ -44,7 +44,7 @@ jstat 主要用来获取当前java 堆信息，比如 Eden区和2个幸存区，
 >kevinYin.github.io git:master # jstat -gc 6086                                                     
 >
  S0C    S1C    S0U    S1U      EC       EU        OC         OU       MC     MU    CCSC   CCSU   YGC     YGCT    FGC    FGCT     GCT
- 
+
 >20480.0  20480.0   0.0    1643.2  163840.0  130577.7   483328.0   76608.0    56820.0  55175.3  6188.0  5816.1    157    1.691   4      0.106    1.797
 
 
@@ -58,6 +58,7 @@ jstat 主要用来获取当前java 堆信息，比如 Eden区和2个幸存区，
 0.106    1.826
 
 解读下：
+
 >S0:幸存区0：使用9.49%；  E:eden区:使用率24.90 YGC：young GC次数 162次，YGCT的总耗时：1.72S  ，FGC ： full GC的次数 4次，总耗时 0.106S  总的GC耗时（GCt）：1.826
 
 <h3>jinfo:查看参数值</h3>
@@ -107,11 +108,11 @@ Concurrent Mark-Sweep GC
 >   4:         25780        2268640  java.lang.reflect.Method
 
 >   5:         58164        1861248  java.util.HashMap$Node
- 
+
 **3.生成dump文件**
 
->kevinYin.github.io git:master # jmap -dump:format=b,file=jvm.dump 6086 
-                        
+>kevinYin.github.io git:master # jmap -dump:format=b,file=jvm.dump 6086
+
 >Dumping heap to /code/github/kevinYin.github.io/jvm.dump ...
 
 >Heap dump file created
@@ -141,11 +142,11 @@ Server is ready.
 生成线程快照的主要目的是定位线程出现长时间停顿的原因，如线程间死锁、死循环、请求外部资源导致的长时间等待等。线程出现停顿的时候通过jstack来查看各个线程的调用堆栈，就可以知道没有响应的线程到底在后台做什么事情，或者等待什么资源。
 
 //显示除堆栈信息外加锁的信息
+
 >kevinYin.github.io git:master # jstack -l  6086
 
 具体的线程快照信息相对复杂，在这里暂不做分析。
 
 `总结:`JDK自带这么多个工具，实际上使用比较实用的，jps是基础，jstat是首要的定位工具，详细分析用jmap。
 
-接下来就试试用这些工具进行 实践分析，调优，请看后篇。 
-  
+接下来就试试用这些工具进行 实践分析，调优，请看后篇。
