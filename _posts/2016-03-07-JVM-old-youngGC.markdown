@@ -40,20 +40,16 @@ permalink: /Priest/old-younGC
 **收集器：**
 
 <h3>年轻代的收集器</h3>
-
 1. Serial Collector：单线程收集器，适合单核机器
-
-2.ParNew Collector : 多线程收集器，是能与CMS配合的唯一收集器
-
+2. ParNew Collector : 多线程收集器，是能与CMS配合的唯一收集器
 3. Parallel Scavenge Collector：“高吞吐”收集器
 
 <h3>老年代的收集器</h3>
+1.Parallel Old Collector： Parallel Scavenge的老年代版本,适合多核机器，被称为“高吞吐GC”, 适合做科学计算等场景。
 
-4. Parallel Old Collector： Parallel Scavenge的老年代版本,适合多核机器，被称为“高吞吐GC”, 适合做科学计算等场景。
+2.CMS Collector：并发收集器，中断JVM（STW）时间非常短，在垃圾回收执行过程中，其他线程依然在执行，也被称为低延迟GC，适用于所有应用对响应时间要求比较严格的场景。
 
-5. CMS Collector：并发收集器，中断JVM（STW）时间非常短，在垃圾回收执行过程中，其他线程依然在执行，也被称为低延迟GC，适用于所有应用对响应时间要求比较严格的场景。
-
-6. G1 Collector：垃圾优先的回收器，但是不稳定，其目标是在将来取代CMS GC，成为最高效的收集器。
+3.G1 Collector：垃圾优先的回收器，但是不稳定，其目标是在将来取代CMS GC，成为最高效的收集器。
 
 ![收集器示意图](http://7xrmyq.com1.z0.glb.clouddn.com/JVM01.png)
 
