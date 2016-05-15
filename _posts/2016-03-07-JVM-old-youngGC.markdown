@@ -23,11 +23,11 @@ permalink: /Priest/old-younGC
 >3.如果年轻代部分对象在多次minor GC没有被回收，那么达到一定的年龄后 会被转移到老年代。JVM默认的最高年龄是15，一次Minor GC会给对象的年龄+1，达到系统设置的年龄后，会被转移到 老年代。
 
 **设置常用的参数：**
-	
+
 	1.-XX:InitialTenuringThreshold:设定老年代阀值的初始值
-	
+
 	2.-XX:MaxTenuringThreshold:设定老年代阀值的初始值
-	
+
 	3.-XX:TargetSurvivorRatio : 设定幸存区的目标使用率
 
 例子：XX:MaxTenuringThreshold=10 -XX:TargetSurvivorRatio=90 设定老年代阀值的上限为10,幸存区空间目标使用率为90%。
@@ -39,22 +39,30 @@ permalink: /Priest/old-younGC
 **描述：**老年代回收的过程以及效率有依赖于JVM设置何种垃圾收集器，常规的回收过程是：扫描并标记所有需要回收的对象，标记完成之后，让存活的对象向一端移动，然后将端边界以外的内存进行清理，GC过程称之为 full GC 。
 **收集器：**
 
-1.Serial GC ：针对单核机器设计，采用单线程进行GC。过程：将老年代所有存活的对象进行标记，保持位置不变，然后将所有不存活的对象的空间释放，最后把存活的对象移到对空间前面以保持空间的连续性，最终结果就是分为有对象和无对象的空间（空间压缩）。
+<h3>年轻代的收集器</h3>
 
-2.Parallel GC ：采用多线程进行GC，提高GC效率，适合多核机器，被称为“高吞吐GC”。
+1. Serial Collector：单线程收集器，适合单核机器
 
-3.Parallel Old GC：在JDK 5中被引入，与Parallel GC相比唯一的区别在于Parallel的GC算法是为老年代设计的。它的执行过程分为三步：标记(mark)–总结(summary)–压缩(compaction)。其中summary步骤会会分别为存活的对象在已执行过GC的空间上标出位置。
+2.ParNew Collector : 多线程收集器，是能与CMS配合的唯一收集器
 
-4.CMS GC：中断JVM（STW）时间非常短，在垃圾回收执行过程中，其他线程依然在执行，也被称为低延迟GC，适用于所有应用对响应时间要求比较严格的场景
+3. Parallel Scavenge Collector：“高吞吐”收集器
 
-5.G1 GC ： G1最大的改进在于其性能表现，它比以上任何一种GC都更快速。但是不稳定，其目标是在将来取代CMS GC，成为最高效的收集器。
+<h3>老年代的收集器</h3>
 
-**说明：**：java8 默认的垃圾回收器是Parallel GC ，经过测试，java8中 Parallel GC的效率最高，详情看 [这里](http://www.importnew.com/16533.html)。
+4. Parallel Old Collector： Parallel Scavenge的老年代版本,适合多核机器，被称为“高吞吐GC”, 适合做科学计算等场景。
+
+5. CMS Collector：并发收集器，中断JVM（STW）时间非常短，在垃圾回收执行过程中，其他线程依然在执行，也被称为低延迟GC，适用于所有应用对响应时间要求比较严格的场景。
+
+6. G1 Collector：垃圾优先的回收器，但是不稳定，其目标是在将来取代CMS GC，成为最高效的收集器。
+
+![收集器示意图](http://7xrmyq.com1.z0.glb.clouddn.com/JVM01.png)
+
+**说明：**：java8 默认的垃圾回收器是Parallel GC ，经过测试，java8中 Parallel GC的效率最高，详情看 [这里](http://www.importnew.com/16533.html)，但在互联网应用中，大多数还是倾向使用CMS。
 
 **设置常用的参数：**
-	
+
 	1.-XX:+UseParallelGC 设置收集器
-	
+
 	2.-XX:NewRatio	新生代与老年代的比例
 
 
