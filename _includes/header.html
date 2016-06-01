@@ -1,7 +1,6 @@
 <header class="header">
   <div class="wrapper">
-    <a class="site-title" href="{{ site.baseurl }}/" style="font-size: 30px; color: #CCC1A1;">K</a>
-    <nav class="site-nav">
+     <nav class="site-nav">
       {% for page in site.pages %}
         {% if page.title and page.public %}
         <a class="page-link" href="{{ page.url | prepend: site.baseurl }}">{{ page.title }}</a>
