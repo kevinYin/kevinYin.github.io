@@ -4,7 +4,7 @@ url: "http://kevinYin.github.io"    # the protocol and hostname of your site, eg
 baseurl: "" # the prefix of your site uri, eg. `/jekyll-theme-EasyBook` or just one slash `/`
 #timezone: Asia/Chongqing
 description: >
-  java coder Big-Data 
+  java coder Big-Data
 
 # Your information
 email: liang_chengyin@163.com
@@ -20,7 +20,7 @@ github_username:  kevinYin
 #disqus_shortname: xxx   # get one: https://disqus.com/admin/signup/
 comments :
 provider : duoshuo
-duoshuo : 
+duoshuo :
 duoshuo_shortname: kevinyin
 # get one: http://duoshuo.com/create-site/
 
@@ -31,7 +31,7 @@ gems:
  - jemoji
 
 # Build settings
-paginate: 8
+paginate: 12
 paginate_path: "page:num"
 
 highlighter: rouge
