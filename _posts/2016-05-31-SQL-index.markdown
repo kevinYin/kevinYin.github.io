@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "mysql索引的创建以及优化（单表）"
-date:   2016-05-31 19:16
+date:   2016-05-05 19:16
 categories: SQL
 permalink: /Priest/SQL-index
 
@@ -52,7 +52,7 @@ FROM test_data WHERE line1='line14999995' AND line2='07004999995' AND line3 like
  这里可以看到是 3个索引，只用到了 其中1个，没有用到全部，扫描行数达到242W行。  
  （2）第二次  
   ![2](http://7xrmyq.com1.z0.glb.clouddn.com/mysqlIndex.png)
- 用到了一个联合索引，扫描行数达到 120W，比之前的少了一半。
+ 用到了一个联合索引，扫描行数达到 120W，比之前的少了一半。  
 **结论：**  
 `出现多个条件 并且是 “=” 过滤的时候，联合索引的效率远比单列索引高效；在多个单列索引以及多个条件查询的时候，只有其中一个索引被用到，其他的都失效。`  
 
