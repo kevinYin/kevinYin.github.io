@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "mysql索引查询（原理篇）"
-date:   2016-06-11 19:16
+date:   2016-06-06 19:16
 categories: SQL
 permalink: /Priest/SQL-theory
 
