@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "mysql索引查询（原理篇）"
-date:   2016-06-06 19:16
+date:   2016-06-07 19:16
 categories: SQL
 permalink: /Priest/SQL-theory
 
@@ -22,8 +22,7 @@ B+ 树的特点是
 >1.能够保持数据稳定有序  
 >2.查找以典型的方式进行，类似于二叉查找树  
 
-![btree](http://7xrmyq.com1.z0.glb.clouddn.com/btree4.jpg)   
-
+![btree](http://7xrmyq.com1.z0.glb.clouddn.com/btree4.jpg)  
 在数据库中，b+树 的数据存储在叶子节点，父节点没有任何的数据内容，如图所示。b-tree的查找过程是，如图，比如说要找到28，先是从最顶端开始，将顶节点所在的从磁盘读入内存，然后找到P2，将P2所在的磁盘读入内存，然后找到数据在P2对应子节点所在的磁盘，最后将找到的目标磁盘读入内存，完成查找。中间总共发生了 3次磁盘IO。磁盘IO次数越多，越耗性能。所以在设计索引的时候需要注意，尽量避免b-tree 的高度过高导致性能下降。
 
 
