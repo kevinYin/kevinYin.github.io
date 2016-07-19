@@ -1,3 +1,11 @@
+---
+layout: post
+title:  "spring源码学习--IOC容器初始化"
+date:   2016-07-20 00:16
+categories: spring
+permalink: /Priest/spring-ioc
+
+---
 
 **前言：**spring源码是我觉得对于java开发来讲最值得去阅读的框架代码，不仅是因为它强大，更吸引我的是它整体的设计思路非常优秀，也是因此，厂里架构师非常推荐我们去读读源码。
  
