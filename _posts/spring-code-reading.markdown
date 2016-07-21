@@ -1,9 +1,9 @@
 ---
-layout: post
-title:  "spring源码学习--IOC容器初始化"
-date:   2016-07-20 00:16
-categories: spring
-permalink: /Priest/spring-ioc
+layout: post  
+title:  "spring源码学习--IOC容器初始化"  
+date:   2016-07-20 00:16  
+categories: spring  
+permalink: /Priest/spring-ioc  
 
 ---
 
