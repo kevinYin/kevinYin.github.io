@@ -35,4 +35,7 @@ IOC容器最底层的是一个BeanFactory，它本身是一个接口，然后有
 > 2. BeanDefinitionDocumentReader对Resource进行解析，将bean封装成BeanDefinition
 
 ###1.3 BeanDefinition注册进BeanFactory
+这个环节主要是将BeanDefinition注册进BeanFactory，它的实现原理是将解析出来的bean封装成BeanDefinition放入一个HashMap里面。IOC容器主要默认的BeanFacotry是 DefaulListableFactory，所以这个hashMap就是在它里面。   
 
+## 总结
+spring大致的架构 以及 核心的IOC容器的初始化过程，有了大致的了解后，接下来就逐个环节的代码进行细致的了解。
