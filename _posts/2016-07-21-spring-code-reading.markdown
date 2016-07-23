@@ -25,7 +25,7 @@ IOC容器最底层的是一个BeanFactory，它本身是一个接口，然后有
  ApplicationContext context = new FileSystemXmlApplicationContext("applicationContext.xml");
 ``
 上面有提到FileSystemXmlApplicationContext是IOC的一种高级形态，看下它的父类结构：  
-![UML图片]   
+![UML图片](http://7xrmyq.com1.z0.glb.clouddn.com/FileSystemXmlApplicationContext.png)   
 所以可以看到它是由 BeanFacotry和ResourceLoader一路继承下来的，很明显BeanFacotry其实用来装bean的，而ResourceLoader，就是读取bean的相关Resource，然后将读取的bean载入beanFacotry。   
 了解到整体的结构后，开始进入到具体的代码实现上。从整体来讲，具体代码实现有这么几个步骤：   
 
