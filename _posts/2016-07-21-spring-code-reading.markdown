@@ -11,12 +11,15 @@ permalink: /Priest/spring-ioc
  
 
 ##IOC容器的相关实现   
+
 IOC容器最底层的是一个BeanFactory，它本身是一个接口，然后有各种实现方案，从大的方向看，它是分了2种层次实现。一种是实现BeanFacoty接口，这是IOC容器最基本功能的实现，具体实现比如XmlBeanFactory，DefaulListableFactory；另一种是ApplicationContext应用上下文的高级形态的实现，具体实现比如ClassPathApplicationContext，WebApplicationContext，而实际上，第二种实现是在第一种方式的基础上进行继承，并且拓展了一些高级的方法。
 
 ##IOC容器的初始化过程   
+
 **IOC容器初始化过程，主要是包括3个步骤，一是定位BeanDefinition的Resource；二是载入Resource描述的BeanDefinition；三是将BeanDefinition注册到IOC容器。**
 
 ###1.1定位BeanDefinition的Resource   
+
 通俗地讲，BeanDefinition就是IOC容器里面的一个个bean，而Resource其实就是描述bean的配置文件，比如常见的就是applicationContext.xml文件。那么在spring里面是如何实现的呢。看个例子：   
 ``  
  ApplicationContext context = new FileSystemXmlApplicationContext("applicationContext.xml");
@@ -25,12 +28,14 @@ IOC容器最底层的是一个BeanFactory，它本身是一个接口，然后有
 ![UML图片]   
 所以可以看到它是由 BeanFacotry和ResourceLoader一路继承下来的，很明显BeanFacotry其实用来装bean的，而ResourceLoader，就是读取bean的相关Resource，然后将读取的bean载入beanFacotry。   
 了解到整体的结构后，开始进入到具体的代码实现上。从整体来讲，具体代码实现有这么几个步骤：   
+
 > 1.初始化bean的Resource的具体地址（文件）  
 > 2.创建一个BeanFactory  
 > 3.获取ResourceLoader进行读取ReSource文件
 
 ###1.2载入BeanDefinition   
 这个环节主要是将配置文件进行解析，将里面描述的bean封装成BeanDefinition. 配置文件的解析是通过一个文档解析器BeanDefinitionDocumentReader进行解析。在这个环节也可简单分为   
+
 > 1. 创建一个BeanDefinitionDocumentReader
 > 2. BeanDefinitionDocumentReader对Resource进行解析，将bean封装成BeanDefinition
 
