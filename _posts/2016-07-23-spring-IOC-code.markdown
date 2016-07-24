@@ -114,8 +114,8 @@ Resource[] configResources = getConfigResources();
 		}
 ```   
 
-可以看到这个环节的最终目的，定位配置的Resource文件地址。getConfigLocations()其实就是获取初始化FileSystemXmlApplicationContext的时候，放入 configLocations的文件地址“applicationContext.xml”。
+可以看到这个环节的最终目的，定位配置的Resource文件地址。getConfigLocations()其实就是获取初始化FileSystemXmlApplicationContext的时候，放入 configLocations的文件地址“applicationContext.xml”。    
 ### 载入Resource描述的BeanDefinition  
-上一步已经可以完成定位了bean的解析文件地址，这个环节就是文件描述的bean进行解析封装成BeanDefinition载入，这也是IOC容器初始化过程中最为复杂的一步。
+上一步已经可以完成定位了bean的解析文件地址，这个环节就是文件描述的bean进行解析封装成BeanDefinition载入，这也是IOC容器初始化过程中最为复杂的一步。    
 ### 将BeanDefinition注册到IOC容器  
 IOC容器初始化的最后一步，将bean注册进IOC容器，简单的将就是将bean 以beanName为key，对应的BeanDefinition为value put进一个HashMap里面。
