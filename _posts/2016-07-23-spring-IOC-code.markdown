@@ -8,20 +8,20 @@ permalink: /Priest/spring-ioc-code
 ---
 
 **前言：**了解了IOC容器的初始化过程后，接下来就逐个环节了解和学习他的具体实现的代码。我采用一个单元测试例子来查看spring IOC容器的初始化过程。   
-``
+```
 @Test
     public void testIOC() {
         FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext("applicationContext.xml");
         ExpenseDetailService service = (ExpenseDetailService) context.getBean("expenseDetailService");
         assert service != null;
     }
-``
+```
 
 ### 定位BeanDefinition的Resource  
 从整体上看，这个环节包括设置Resource的文件路径，创建一个IOC容器，创建ResourceLoader对文件进行读取。  
 从FileSystemXmlApplicationContext的构造器代码开始，查看到      
 
-``
+```
 public FileSystemXmlApplicationContext(String[] configLocations, boolean refresh, ApplicationContext parent)
 			throws BeansException {
 		super(parent);
@@ -30,9 +30,9 @@ public FileSystemXmlApplicationContext(String[] configLocations, boolean refresh
 			refresh();
 		}
 	}
-``
+```
 setConfigLocations明显是初始化Resource的文件路径，后面看到configLocations会被转化放进Resource[] 数组，然后逐个Resource进行解析。然后是关键**refresh()**进行一系列的复杂的功能的初始化工作，其中就包括bean的载入、注册等功能。    
-
+```
 			// Prepare this context for refreshing.
 			prepareRefresh();
 			// Tell the subclass to refresh the internal bean factory.
@@ -70,14 +70,14 @@ setConfigLocations明显是初始化Resource的文件路径，后面看到config
 				// Last step: publish corresponding event.
 				finishRefresh();
 			}
-
+```
 而跟IOC容器初始化核心相关的则是 **ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();** 这个方法字面上是获取一个BeanFacotry，其实就是初始化IOC容器，包括Resource的读取解析，BeanDefinition的载入，BeanDefinition注册进BeanFactory。进入该方法，可以看到refreshBeanFactory(); 是核心的构建BeanFactory的方法，   
-``
+```
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			beanFactory.setSerializationId(getId());
 			customizeBeanFactory(beanFactory);
 			loadBeanDefinitions(beanFactory);
-``	
+```
 其中看到了第一个方法就是创建一个DefaultListableBeanFactory，这个就是spring默认的BeanFactory；然后最后一个**loadBeanDefinitions(beanFactory);**就是完成ReSource的解析 、bean的载入、以及注册进beanFactory. 
 解析来进入loadBeanDefinitions方法，
 ```
