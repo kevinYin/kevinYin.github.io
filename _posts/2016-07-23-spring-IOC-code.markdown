@@ -143,9 +143,11 @@ if (bdHolder != null) {
 		BeanDefinitionReaderUtils.registerBeanDefinition(bdHolder, getReaderContext().getRegistry());
 	}
 ```
-delegate是将bean解析转化成一个BeanDefinitionHolder（里面包含有BeanDefinition 和 beanName）,然后解析来的就是将BeanDefinitionHolder注册进BeanFactory。
-### 将BeanDefinition注册到IOC容器  
-IOC容器初始化的最后一步，将bean注册进IOC容器，简单的将就是将bean 以beanName为key，对应的BeanDefinition为value put进一个HashMap里面。代码如下：
+delegate是将bean解析转化成一个BeanDefinitionHolder（里面包含有BeanDefinition 和 beanName）,然后解析来的就是将BeanDefinitionHolder注册进BeanFactory。   
+
+### 将BeanDefinition注册到IOC容器   
+IOC容器初始化的最后一步，将bean注册进IOC容器，简单的将就是将bean 以beanName为key，对应的BeanDefinition为value put进一个HashMap里面。代码如下：  
+
 ```
 public static void registerBeanDefinition(
 		BeanDefinitionHolder definitionHolder, BeanDefinitionRegistry registry)
