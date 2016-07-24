@@ -1,7 +1,7 @@
 ---
 layout: post  
 title:  "spring源码学习--IOC容器初始化代码"  
-date:   2016-07-23 12:16  
+date:   2016-07-25 01:16  
 categories: spring  
 permalink: /Priest/spring-ioc-code  
 
@@ -115,7 +115,59 @@ Resource[] configResources = getConfigResources();
 ```   
 
 可以看到这个环节的最终目的，定位配置的Resource文件地址。getConfigLocations()其实就是获取初始化FileSystemXmlApplicationContext的时候，放入 configLocations的文件地址“applicationContext.xml”。    
+
 ### 载入Resource描述的BeanDefinition  
-上一步已经可以完成定位了bean的解析文件地址，这个环节就是文件描述的bean进行解析封装成BeanDefinition载入，这也是IOC容器初始化过程中最为复杂的一步。    
+上一步已经可以完成定位了bean的解析文件地址，这个环节就是文件描述的bean进行解析封装成BeanDefinition载入，这也是IOC容器初始化过程中最为复杂的一步。大体上来看解析Resource，并将bean封装成BeanDefinition的过程大致如下：   
+ 1. 一步步跟踪reader.loadBeanDefinitions(configLocations);到 doLoadBeanDefinitions(InputSource inputSource, Resource resource)，发现是创建了一个Document对象进行协助处理的，
+ ```
+ Document doc = doLoadDocument(inputSource, resource);
+ return registerBeanDefinitions(doc, resource);
+ ```
+ 逐步进入doRegisterBeanDefinitions(Element root)，
+ ```
+preProcessXml(root);
+parseBeanDefinitions(root, this.delegate);
+postProcessXml(root);
+ ```
+parseBeanDefinitions(root, this.delegate);是最终的处理,该方法对bean的解析处理是使用了BeanDefinitionParserDelegate进行解析，
+```
+parseDefaultElement(Element ele, BeanDefinitionParserDelegate delegate);
+```
+到最后的调用 processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate)；
+```
+BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);
+if (bdHolder != null) {
+	bdHolder = delegate.decorateBeanDefinitionIfRequired(ele, bdHolder);
+	try {
+		// Register the final decorated instance.
+		BeanDefinitionReaderUtils.registerBeanDefinition(bdHolder, getReaderContext().getRegistry());
+	}
+```
+delegate是将bean解析转化成一个BeanDefinitionHolder（里面包含有BeanDefinition 和 beanName）,然后解析来的就是将BeanDefinitionHolder注册进BeanFactory。
 ### 将BeanDefinition注册到IOC容器  
-IOC容器初始化的最后一步，将bean注册进IOC容器，简单的将就是将bean 以beanName为key，对应的BeanDefinition为value put进一个HashMap里面。
+IOC容器初始化的最后一步，将bean注册进IOC容器，简单的将就是将bean 以beanName为key，对应的BeanDefinition为value put进一个HashMap里面。代码如下：
+```
+public static void registerBeanDefinition(
+		BeanDefinitionHolder definitionHolder, BeanDefinitionRegistry registry)
+		throws BeanDefinitionStoreException {
+
+	// Register bean definition under primary name.
+	String beanName = definitionHolder.getBeanName();
+	registry.registerBeanDefinition(beanName, definitionHolder.getBeanDefinition());
+
+	// Register aliases for bean name, if any.
+	String[] aliases = definitionHolder.getAliases();
+	if (aliases != null) {
+		for (String alias : aliases) {
+			registry.registerAlias(beanName, alias);
+		}
+	}
+}
+```
+可以看到是通过BeanDefinitionHolder获取BeanDefinition，然后调用DefaultListableBeanFactory的registerBeanDefinition(String beanName, BeanDefinition beanDefinition)，将BeanDefinition放进DefaultListableBeanFactory 定义的beanDefinitionMap里面
+```
+this.beanDefinitionMap.put(beanName, beanDefinition);
+```
+
+### 总结    
+IOC容器的初始化的代码流程大致如此，当然很多的细节没有一一列出来，读源码感觉收获更多的是spring整体大的实现思路以及设计是如何的，在读的过程中也感觉到源码的代码风格比较值得学习（比如核心的refresh()方法，风格跟厂里架构师一直推荐的风格类似，让人看起来思路非常的清晰）。
