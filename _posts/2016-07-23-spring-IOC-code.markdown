@@ -118,7 +118,7 @@ Resource[] configResources = getConfigResources();
 
 ### 载入Resource描述的BeanDefinition  
 上一步已经可以完成定位了bean的解析文件地址，这个环节就是文件描述的bean进行解析封装成BeanDefinition载入，这也是IOC容器初始化过程中最为复杂的一步。大体上来看解析Resource，并将bean封装成BeanDefinition的过程大致如下：   
- 一步步跟踪reader.loadBeanDefinitions(configLocations);到 doLoadBeanDefinitions(InputSource inputSource, Resource resource)，发现是创建了一个Document对象进行协助处理的，
+ 1. 一步步跟踪reader.loadBeanDefinitions(configLocations);到 doLoadBeanDefinitions(InputSource inputSource, Resource resource)，发现是创建了一个Document对象进行协助处理的，
  ```
  Document doc = doLoadDocument(inputSource, resource);
  return registerBeanDefinitions(doc, resource);
@@ -133,8 +133,7 @@ parseBeanDefinitions(root, this.delegate);是最终的处理,该方法对bean的
 ```
 parseDefaultElement(Element ele, BeanDefinitionParserDelegate delegate);
 ```
-到最后的调用 processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate)；   
-
+到最后的调用 processBeanDefinition(Element ele, BeanDefinitionParserDelegate delegate)；
 ```
 BeanDefinitionHolder bdHolder = delegate.parseBeanDefinitionElement(ele);
 if (bdHolder != null) {
@@ -143,8 +142,7 @@ if (bdHolder != null) {
 		// Register the final decorated instance.
 		BeanDefinitionReaderUtils.registerBeanDefinition(bdHolder, getReaderContext().getRegistry());
 	}
-```    
-
+```
 delegate是将bean解析转化成一个BeanDefinitionHolder（里面包含有BeanDefinition 和 beanName）,然后解析来的就是将BeanDefinitionHolder注册进BeanFactory。   
 
 ### 将BeanDefinition注册到IOC容器   
