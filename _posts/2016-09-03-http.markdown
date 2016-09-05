@@ -36,22 +36,20 @@ http协议是基于TCP/IP的应用层协议, 先了解 TCP/IP 的四层机构
   分http请求报文和http响应报文,报文的结构:   报文首部  + 空行(CR+LF)  + 报文主体 ,其中请求报文首部是包含了请求行,也就是(URL + http版本 + 方法),
   响应报文的则是包含了状态行(http版本+状态码),首部还包含 请求/响应首部字段 + 通用首部字段等.    
   一个http请求报文首部信息:  
-  
-  > POST / HTTP/1.1
-  > Host: https://www.facebook.com/
-  > user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36
-  > accept:*/*   (通知服务器,用户代理能够处理的媒体类型 以及各媒体类型的优先级,比如text/html,text/plain)
+  > POST / HTTP/1.1 
+  > Host: https://www.facebook.com/  
+  > user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36  
+  > accept:*/*   (通知服务器,用户代理能够处理的媒体类型 以及各媒体类型的优先级,比如text/html,text/plain)  
   > accept-language:zh-CN,zh;q=0.8,en;q=0.6 
   > accept-encoding:gzip, deflate, sdch (用户代理支持的内容编码 以及 优先顺序)
   > Connection: Keep-Alive
   > cache-control:no-cache (用来操作缓存的工作机制,no-cache表示强制想服务器验证)
   
  http 响应报文首部信息:  
- 
- > HTTP/1.1 200 OK
- > Server:Apache Tomcat/5.0.12
- > Date:Mon,6Oct2003 13:23:42 GMT
- > Content-Length:112 (响应报文实体的大小)
+ > HTTP/1.1 200 OK  
+ > Server:Apache Tomcat/5.0.12  
+ > Date:Mon,6Oct2003 13:23:42 GMT  
+ > Content-Length:112 (响应报文实体的大小)  
  > Connection: close
  > Content-encoding:gzip (告知客户端,服务器对实体的主体部分选用的内容编码方式)
 
