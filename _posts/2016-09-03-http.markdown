@@ -35,7 +35,7 @@ http协议是基于TCP/IP的应用层协议, 先了解 TCP/IP 的四层机构
 ## http报文   
   分http请求报文和http响应报文,报文的结构:   报文首部  + 空行(CR+LF)  + 报文主体 ,其中请求报文首部是包含了请求行,也就是(URL + http版本 + 方法),
   响应报文的则是包含了状态行(http版本+状态码),首部还包含 请求/响应首部字段 + 通用首部字段等.    
-   ### 一个http请求报文首部信息:  
+### 一个http请求报文首部信息:  
   > POST / HTTP/1.1 
   > Host: https://www.facebook.com/  
   > user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36  
@@ -45,7 +45,7 @@ http协议是基于TCP/IP的应用层协议, 先了解 TCP/IP 的四层机构
   > Connection: Keep-Alive
   > cache-control:no-cache (用来操作缓存的工作机制,no-cache表示强制想服务器验证)
   
-  ### http 响应报文首部信息:  
+### http 响应报文首部信息:  
  > HTTP/1.1 200 OK  
  > Server:Apache Tomcat/5.0.12  
  > Date:Mon,6Oct2003 13:23:42 GMT  
