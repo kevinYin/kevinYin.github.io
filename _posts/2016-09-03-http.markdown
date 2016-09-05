@@ -41,9 +41,9 @@ http协议是基于TCP/IP的应用层协议, 先了解 TCP/IP 的四层机构
   > Host: https://www.facebook.com/  
   > user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36  
   > accept:*/*   (通知服务器,用户代理能够处理的媒体类型 以及各媒体类型的优先级,比如text/html,text/plain)  
-  > accept-language:zh-CN,zh;q=0.8,en;q=0.6 
-  > accept-encoding:gzip, deflate, sdch (用户代理支持的内容编码 以及 优先顺序)
-  > Connection: Keep-Alive
+  > accept-language:zh-CN,zh;q=0.8,en;q=0.6   
+  > accept-encoding:gzip, deflate, sdch (用户代理支持的内容编码 以及 优先顺序)  
+  > Connection: Keep-Alive  
   > cache-control:no-cache (用来操作缓存的工作机制,no-cache表示强制想服务器验证)
   
 ### http 响应报文首部信息:  
@@ -51,8 +51,8 @@ http协议是基于TCP/IP的应用层协议, 先了解 TCP/IP 的四层机构
  > Server:Apache Tomcat/5.0.12  
  > Date:Mon,6Oct2003 13:23:42 GMT  
  > Content-Length:112 (响应报文实体的大小)  
- > Connection: close
- > Content-encoding:gzip (告知客户端,服务器对实体的主体部分选用的内容编码方式)
+ > Connection: close  
+ > Content-encoding:gzip (告知客户端,服务器对实体的主体部分选用的内容编码方式)  
 
 ## http状态码    
  > 1. 1XX,信息性状态码.  
