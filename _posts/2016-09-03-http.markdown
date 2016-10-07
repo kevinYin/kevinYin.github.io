@@ -2,7 +2,7 @@
 layout: post  
 title:  "http简介"  
 date:   2016-09-03 01:16  
-categories: http  
+categories: 基础  
 permalink: /Priest/http 
 
 ---
