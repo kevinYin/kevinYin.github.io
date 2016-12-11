@@ -47,17 +47,18 @@ gb'
 ## 2. z.sh ， a new autojump
 首先，这个东西不是我写的，但是由于这个插件非常的实用，所以把它搬到这里来说下。  
 之前刚刚开始用mac的时候，会有提到autojump这个插件，相对来讲会非常实用，可以快速地跳转，但是前提是你必须要写的相对清楚目标文件夹的名字，如果遇到多个文件名一样，但是路径不一样的时候，autojump就会选择其中一个，但是在跳转后你才知道调到哪一个，而不是在enter之前你就知道autojump帮你跳转到的目的目录。   
-Z就可以。
+Z就可以。  
 直接说例子：  
 终端输入： **z kevin**  
 我的所有文件夹目录有多个包含**kevin**字符串的目录，Z 插件会默认调出完全匹配的一个目录 **z /Users/kevin/**，如果这个目录不是你索要找的，那么再按一次tab键，Z 就会把所有符合 **kevin** 的目录打印出来供你选择：  
->_posts git:master ❯ z /Users/kevin/  
->/Users/kevin/.oh-my-zsh  
->/Users/kevin/github  
->/Users/kevin/github/kevinYin.github.io  
->/Users/kevin/github/kevinYin.github.io/_posts  
->/Users/kevin/soft  
->/Users/kevin/soft/Z  
->/Users/kevin/soft/Z/z  
+
+> _posts git:master ❯ z /Users/kevin/  
+> /Users/kevin/.oh-my-zsh  
+> /Users/kevin/github  
+> /Users/kevin/github/kevinYin.github.io  
+> /Users/kevin/github/kevinYin.github.io/_posts  
+> /Users/kevin/soft  
+> /Users/kevin/soft/Z  
+> /Users/kevin/soft/Z/z  
 
 如何安装使用，访问**https://github.com/rupa/z**，写的很详细。对mac用户来讲，日常开发绝对是一款神器。
