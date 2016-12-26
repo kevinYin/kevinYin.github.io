@@ -22,7 +22,7 @@ permalink: /Priest/shell-tool
 这个看起来已经很简洁了,就一行命令,但是写多了发现还是有很多东西是重复的  
 一是 git checkout -b 命令; 二是 日期,就是当天的日期;三是项目名,项目名又是跟当前目录绑定的,比如我们的项目是 trade-service,
 一般会打个分支叫 20160927_trade_fixBug,所以项目名就是目录的第一个单词,单词之间是 _ 隔开的. 了解需求之后,就可以逐个点实现,
-shell获取当前时间是 `date +%Y%m%d`, 项目名就是获取当前目录,并且按照 - 切割获得第一个元素,所以也就是 
+shell获取当前时间是 `date +%Y%m%d`, 项目名就是获取当前目录,并且按照 - 切割获得第一个元素,所以也就是
 cdir="${PWD##*/}";pname=`expr $cdir | cut -d "-" -f1`**
 所以最终的实现就是:
 
@@ -31,7 +31,7 @@ alias gb='function gb(){
         tname="`date +%Y%m%d`";
         cdir="${PWD##*/}";
         pname=`expr $cdir | cut -d "-" -f1`;
-        git checkout -b $tname"_"$pname"_"$1; 
+        git checkout -b $tname"_"$pname"_"$1;
   };
 gb'
 ```
@@ -61,4 +61,4 @@ Z就可以。
 > /Users/kevin/soft/Z  
 > /Users/kevin/soft/Z/z  
 
-如何安装使用，访问**https://github.com/rupa/z**，写的很详细。对mac用户来讲，日常开发绝对是一款神器。
+如何安装使用，访问**https://github.com/rupa/z**，写的很详细。对mac用户来讲，日常开发绝对是一款神器。  
