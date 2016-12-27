@@ -46,46 +46,46 @@ classRealm: none specified
 此外shade还有一个很重要的功能就是Spring Framework的多个jar包中包含相同的文件spring.handlers和spring.schemas，shade提供AppendingTransformer来对文件内容追加合并，避免运行时会出现读取XML schema文件出错。  
 但是，比较少人了解到shade插件有个坑就是：**如果第三方包中有反射相关的代码，则shade后可能出现不能正常工作,因为它在打包的时候忽略了用字符串写的类名或者包名，比如servlet.addServletWithMapping("org.mortbay.jetty.servlet.DefaultServlet",
     URIUtil.SLASH)。** 详情请看：http://stackoverflow.com/questions/8992025/transformer-for-maven-shade-plugin-to-deal-with-java-reflection     
-    
+
 ### web项目与 dubbo服务启动方式的区别  
 有了classpath的分析，基本确定，再拿web项目与dubbo服务的pom.xml去对比，发现wbe项目没有用到shade插件（也没必要用），所以基本确定是maven-shade-plugin影响到cat依赖的包，猜测应该是 plexus关联的jar包，包含了反射的代码，shade打包的时候忽略了导致运行失败。  
 
 ## 解决  
 换一种方式打包。我的解决方案是： 采用maven-jar-plugin 和 maven-dependency-plugin 替代shade进行打包。代码如下：  
 ```
-          <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                 <version>2.6</version>
-                <configuration>
-                    <archive>
-                        <manifest>
+          <plugin>  
+                <groupId>org.apache.maven.plugins</groupId>  
+                <artifactId>maven-jar-plugin</artifactId>  
+                 <version>2.6</version>  
+                <configuration>  
+                    <archive>  
+                        <manifest>  
                             <addClasspath>true</addClasspath>
                             <classpathPrefix></classpathPrefix>
-                            <mainClass>com.alibaba.dubbo.container.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>2.10</version>
-                <executions>
-                    <execution>
-                        <id>copy</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>
-                                ${project.build.directory}
-                            </outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+                            <mainClass>com.alibaba.dubbo.container.Main</mainClass>  
+                        </manifest>  
+                    </archive>  
+                </configuration>  
+            </plugin>  
+            <plugin>  
+                <groupId>org.apache.maven.plugins</groupId>  
+                <artifactId>maven-dependency-plugin</artifactId>  
+                <version>2.10</version>  
+                <executions>  
+                    <execution>  
+                        <id>copy</id>  
+                        <phase>install</phase>  
+                        <goals>  
+                            <goal>copy-dependencies</goal>  
+                        </goals>  
+                        <configuration>  
+                            <outputDirectory>  
+                                ${project.build.directory}  
+                            </outputDirectory>  
+                        </configuration>  
+                    </execution>  
+                </executions>  
+            </plugin>  
 ```
 
 原理是将依赖的jar存放到跟跟当前dubbo服务打成的jar包放在同一个目录，shell脚本启动的时候将该目录引进classpath即可。总体上只需要修改pom.xml，算是比较低成本的解决方案。  
