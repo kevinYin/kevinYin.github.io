@@ -12,7 +12,7 @@ permalink: /Priest/maven-shade-plugin
 
 ## 背景
 在用dubbo接入cat的时候，集成后放到服务器上一直报错，异常如下：   
-```
+<pre><code>
 java.lang.RuntimeException: Unable to get component: interface org.unidal.initialization.Module.  
 at org.unidal.initialization.DefaultModuleContext.lookup(DefaultModuleContext.java:98)  
 at com.dianping.cat.Cat.initialize(Cat.java:112)  
@@ -22,7 +22,9 @@ Caused by: org.codehaus.plexus.component.repository.exception.ComponentLookupExc
 role: org.unidal.initialization.Module  
 roleHint: cat-client  
 classRealm: none specified  
-```
+</code></pre>
+
+
 
 但是在本地启动跑单元测时候是没问题的，同时，web系统接入cat也是一切正常。  
 
@@ -52,7 +54,7 @@ classRealm: none specified
 
 ## 解决  
 换一种方式打包。我的解决方案是： 采用maven-jar-plugin 和 maven-dependency-plugin 替代shade进行打包。代码如下：  
-```
+<pre><code>
           <plugin>  
                 <groupId>org.apache.maven.plugins</groupId>  
                 <artifactId>maven-jar-plugin</artifactId>  
@@ -86,6 +88,6 @@ classRealm: none specified
                     </execution>  
                 </executions>  
             </plugin>  
-```
+</code></pre>
 
 原理是将依赖的jar存放到跟跟当前dubbo服务打成的jar包放在同一个目录，shell脚本启动的时候将该目录引进classpath即可。总体上只需要修改pom.xml，算是比较低成本的解决方案。  
