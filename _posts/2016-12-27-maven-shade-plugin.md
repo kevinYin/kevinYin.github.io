@@ -13,18 +13,20 @@ permalink: /Priest/maven-shade-plugin
 ## 背景
 在用dubbo接入cat的时候，集成后放到服务器上一直报错，异常如下：   
 ```
-java.lang.RuntimeException: Unable to get component: interface org.unidal.initialization.Module.
-at org.unidal.initialization.DefaultModuleContext.lookup(DefaultModuleContext.java:98)
-at com.dianping.cat.Cat.initialize(Cat.java:112)
-at com.dianping.cat.Cat.initialize(Cat.java:107)
-      ······
-Caused by: org.codehaus.plexus.component.repository.exception.ComponentLookupException: Component descriptor cannot be found in the component repository
-role: org.unidal.initialization.Module
-roleHint: cat-client
-classRealm: none specified
+java.lang.RuntimeException: Unable to get component: interface org.unidal.initialization.Module.  
+at org.unidal.initialization.DefaultModuleContext.lookup(DefaultModuleContext.java:98)  
+at com.dianping.cat.Cat.initialize(Cat.java:112)  
+at com.dianping.cat.Cat.initialize(Cat.java:107)   
+      ······  
+Caused by: org.codehaus.plexus.component.repository.exception.ComponentLookupException: Component descriptor cannot be found in the component repository  
+role: org.unidal.initialization.Module  
+roleHint: cat-client  
+classRealm: none specified  
 ```
-但是在本地启动跑单元测时候是没问题的，同时，web系统接入cat也是一切正常。
-## 分析
+
+但是在本地启动跑单元测时候是没问题的，同时，web系统接入cat也是一切正常。  
+
+## 分析  
 从异常上看，cat初始化的时候是没有加载组件Module，再从源码上分析org.unidal.initialization.Module，发现源头是一个plexus的组件，plexus是类似于spring的东西，类似IOC容器、AOP等功能也有，而cat使用plexus进行开发的，进而推测是部署到服务器的时候没有完成初始化plexus IOC容器。但是在本地跑单元测试的时候没有问题的，web系统接入cat也是没问题的，所以推测：  
 **1.本地运行的时候的classpath 跟 在服务器运行的classpath不一致导致dubbo服务初始化cat失败**  
 **2.web系统的启动方式与dubbo服务的启动方式的区别导致dubbo服务启动失败**  
@@ -45,7 +47,7 @@ classRealm: none specified
 ### web项目与 dubbo服务启动方式的区别  
 有了classpath的分析，基本确定，再拿web项目与dubbo服务的pom.xml去对比，发现wbe项目没有用到shade插件（也没必要用），所以基本确定是maven-shade-plugin影响到cat依赖的包，猜测应该是 plexus关联的jar包，包含了反射的代码，shade打包的时候忽略了导致运行失败。  
 
-## 解决
+## 解决  
 换一种方式打包。我的解决方案是： 采用maven-jar-plugin 和 maven-dependency-plugin 替代shade进行打包。代码如下：  
 ```
           <plugin>
