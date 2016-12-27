@@ -11,8 +11,9 @@ permalink: /Priest/maven-shade-plugin
 
 
 ## 背景
-在用dubbo接入cat的时候，集成后放到服务器上一直报错，异常如下：   
-<pre><code>
+在用dubbo接入cat的时候，集成后放到服务器上一直报错，异常如下：  
+ 
+```java
 java.lang.RuntimeException: Unable to get component: interface org.unidal.initialization.Module.  
 at org.unidal.initialization.DefaultModuleContext.lookup(DefaultModuleContext.java:98)  
 at com.dianping.cat.Cat.initialize(Cat.java:112)  
@@ -21,8 +22,9 @@ at com.dianping.cat.Cat.initialize(Cat.java:107)
 Caused by: org.codehaus.plexus.component.repository.exception.ComponentLookupException: Component descriptor cannot be found in the component repository  
 role: org.unidal.initialization.Module  
 roleHint: cat-client  
-classRealm: none specified  
-</code></pre>
+classRealm: none specified
+```
+
 
 
 
@@ -54,40 +56,41 @@ classRealm: none specified
 
 ## 解决  
 换一种方式打包。我的解决方案是： 采用maven-jar-plugin 和 maven-dependency-plugin 替代shade进行打包。代码如下：  
-<pre><code>
-          <plugin>  
-                <groupId>org.apache.maven.plugins</groupId>  
-                <artifactId>maven-jar-plugin</artifactId>  
-                 <version>2.6</version>  
-                <configuration>  
-                    <archive>  
-                        <manifest>  
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix></classpathPrefix>
-                            <mainClass>com.alibaba.dubbo.container.Main</mainClass>  
-                        </manifest>  
-                    </archive>  
-                </configuration>  
-            </plugin>  
-            <plugin>  
-                <groupId>org.apache.maven.plugins</groupId>  
-                <artifactId>maven-dependency-plugin</artifactId>  
-                <version>2.10</version>  
-                <executions>  
-                    <execution>  
-                        <id>copy</id>  
-                        <phase>install</phase>  
-                        <goals>  
-                            <goal>copy-dependencies</goal>  
-                        </goals>  
-                        <configuration>  
-                            <outputDirectory>  
-                                ${project.build.directory}  
-                            </outputDirectory>  
-                        </configuration>  
-                    </execution>  
-                </executions>  
-            </plugin>  
-</code></pre>
+
+``` xml
+<plugin>  
+      <groupId>org.apache.maven.plugins</groupId>  
+      <artifactId>maven-jar-plugin</artifactId>  
+       <version>2.6</version>  
+      <configuration>  
+          <archive>  
+              <manifest>  
+                  <addClasspath>true</addClasspath>
+                  <classpathPrefix></classpathPrefix>
+                  <mainClass>com.alibaba.dubbo.container.Main</mainClass>  
+              </manifest>  
+          </archive>  
+      </configuration>  
+  </plugin>  
+  <plugin>  
+      <groupId>org.apache.maven.plugins</groupId>  
+      <artifactId>maven-dependency-plugin</artifactId>  
+      <version>2.10</version>  
+      <executions>  
+          <execution>  
+              <id>copy</id>  
+              <phase>install</phase>  
+              <goals>  
+                  <goal>copy-dependencies</goal>  
+              </goals>  
+              <configuration>  
+                  <outputDirectory>  
+                      ${project.build.directory}  
+                  </outputDirectory>  
+              </configuration>  
+          </execution>  
+      </executions>  
+  </plugin>
+```
 
 原理是将依赖的jar存放到跟跟当前dubbo服务打成的jar包放在同一个目录，shell脚本启动的时候将该目录引进classpath即可。总体上只需要修改pom.xml，算是比较低成本的解决方案。  
