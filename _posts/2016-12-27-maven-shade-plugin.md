@@ -43,9 +43,9 @@ classRealm: none specified
 结论：**确定是classpath的jar包差异导致。**   
 查看dubbo服务打包的方式，是采用了 maven-shade-plugin 插件打成一个jar包，shade插件主要做这几件事情：  
 
-> 把依赖的class重新放到指定的包下；
-> 改写相关class的字节码，对应于重定义的包路径；
-> 把相关依赖的class打进一个jar包；
+> 把依赖的class重新放到指定的包下；  
+> 改写相关class的字节码，对应于重定义的包路径；  
+> 把相关依赖的class打进一个jar包；  
 
 此外shade还有一个很重要的功能就是Spring Framework的多个jar包中包含相同的文件spring.handlers和spring.schemas，shade提供AppendingTransformer来对文件内容追加合并，避免运行时会出现读取XML schema文件出错。  
 但是，比较少人了解到shade插件有个坑就是：**如果第三方包中有反射相关的代码，则shade后可能出现不能正常工作,因为它在打包的时候忽略了用字符串写的类名或者包名，比如servlet.addServletWithMapping("org.mortbay.jetty.servlet.DefaultServlet",
