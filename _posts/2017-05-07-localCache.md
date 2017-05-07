@@ -1,6 +1,6 @@
 ---
 layout: post  
-title:  "本地缓存的实现方案"  
+title:  "guava-cache"  
 date:   2017-05-07 17:36  
 categories: 分布式缓存  
 permalink: /Priest/guava-cache
