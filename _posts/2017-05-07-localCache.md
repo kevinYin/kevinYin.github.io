@@ -31,11 +31,10 @@ permalink: /Priest/guava-cache
 2. apache commone collection 的 LRUMap
 3. 堆外内存
 
-** LRUMap**  
+**LRUMap**  
 LRUMap是apache 提供的一个带有lru特性的map，可以设置最大size，基本符合缓存的基本功能的要求，但是有个不好的地方，LRUMap本身是非线程安全的，所以需要自己手动处理线程安全的情况。  
-```
+```java
 Map lruMap = Collections.synchronizedMap(new LRUMap(1000));
-
 ```
 **guava cache**  
 不严格地讲，你可以理解guava cache就是带有缓存特性的ConcurrentHashMap,他是参考了ConcurrentHashMap的设计，然后在这个基础上添加了很多的缓存特性的功能，比如大小限制，更新处理，清除策略等。直接通过代码来理解guava cache 的基本使用：  
