@@ -1,32 +1,47 @@
-title: K.Priest
+# Basic
+title: 潘柏信
 subtitle: 个人站
 description: 欢迎来到我的个人站~
 # 头像里面的标题
-#avatarTitle: leopardpan
+avatarTitle: leopardpan
 # 头像里面的描述
 avatarDesc: iOS / 机器学习
-url: "https://kevinYin.github.io"
+url: "http://baixin.io"
 
-# Site settings
-#title: K.Priest
-#url: "https://kevinYin.github.io"    # the protocol and hostname of your site, eg. `http://laobubu.github.io`
-baseurl: "" # the prefix of your site uri, eg. `/jekyll-theme-EasyBook` or just one slash `/`
-#timezone: Asia/Chongqing
-description: >
-  java coder
+# Comment
+comment:
+    # disqus: leopard
+    # duoshuo: leopard 
+    # cloudTie: leopard
 
-# Your information
-email: liang_chengyin@163.com
-author: kevinYin
-#avatar: "//www.gravatar.com/avatar/your_email_md5?d=mm&s=135"
-#avatar: "http://7xrmyq.com1.z0.glb.clouddn.com/avartar.jpg"
-profile: 他进精神病院写代码了
-#twitter_username: twitter_username
-github_username:  kevinYin
+# Social
+social:
+    weibo: 5366874726 
+    github: leopardpan
+    # twitter: 
+    mail: leopardpan@icloud.com
 
-# Comment Service (Disqus or 多说)
-#  choose one and un-comment the line to active it
-#disqus_shortname: xxx   # get one: https://disqus.com/admin/signup/
+# 百度统计 
+# 使用博客模板请去掉或者更换 id 
+baidu:
+    id: 8ba1c6be0953b6f9c2ba38e57f615421  
+
+# Google Analytics
+# 使用博客模板请去掉或者更换 id
+ga:
+    id: UA-84134159-3   
+    host: auto  
+
+
+# 《----------------- 上面的信息修改成你自己的 ---------------------------》
+#
+#
+#  _post/ 下的文章更换成你自己的文章
+#  帮忙star一下，感谢~😆 地址： https://github.com/leopardpan/leopardpan.github.io
+#
+#
+# 《--------------- 下面的信息可以自行选择是否修改 ------------------------》
+
 
 permalink: /:year/:month/:title/
 # Format
@@ -43,12 +58,14 @@ blog_button:
 
 # Navigation buttons in the front page.s
 nav:
-    - {title: 所有文章, description: archive, url: '/archive'}
-    - {title: 标签, description: categories, url: '/categories'}
-    - {title: 关于我, description: about, url: '/about'}
-
+    - {title: 所有文章, description: archive, url: '/archive'}   
+    - {title: 标签, description: tags, url: '/tags'}      
+    - {title: 关于我, description: about, url: '/about'}      
+    
 
 # Pagination
 gems: [jekyll-paginate,jekyll-sitemap]
 paginate: 20
 paginate_path: "page/:num/"
+
+
