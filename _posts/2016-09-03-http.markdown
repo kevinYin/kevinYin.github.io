@@ -1,0 +1,113 @@
+---
+layout: post  
+title:  "http简介"  
+date:   2016-09-03 01:16  
+categories: 基础  
+permalink: /Priest/http 
+
+---
+
+http协议是每个web开发者都应该了解的基础知识,读书的时候没有深入学习,在开发过程经常遇到很多问题,诸如网页缓存问题
+,各种状态码等.买本 薄薄的《图解http》学了半个月, 写个文章总结 记录下. 本文思路是先从大的方向说http,然后再细入http的各种细节.
+
+
+## TCP/IP体系结构  
+http协议是基于TCP/IP的应用层协议, 先了解 TCP/IP 的四层机构      
+
+ > 1.应用层,对应应用程序的通信服务的.这一层涉及的协议有http ftp TELNET等.  
+ > 2.传输层,对应用层提供网络连接中的2台计算机之间的数据传输.这一层涉及的协议有 TCP UDP.  
+ > 3.网络层,处理传输层上流动的数据包,简单地讲就是在众多选项中选择一条传输路线.这一层涉及的协议有 IP.  
+ > 4.数据链路层,处理连接网络的硬件部分.比如网卡.  
+ 
+用一次http请求来大致了解下四层的协议是如何运作的:
+
+ > 1. http协议负责生成针对目标服务器的http请求报文     
+ > 2. TCP协议将报文切割成报文段传给对方  
+ > 3. IP协议负责寻址,同时中转,传送  
+ > 4. 目标服务器接收到报文后,TCP将其重组,由http协议对报文内容进行处理,处理完后再按照同样的方式回传.  
+
+## http协议简介  
+ > 1. http协议用于客户端和服务器端的之间的通信
+ > 2. http是无状态协议,即每次处理完请求后,都不再保留之前请求或者响应的报文信息.
+ > 3. http有几种方式给服务器端发送请求报文: GET(获取资源) POST(提交资源)  DELETE PUT(传输文件) HEAD(获取首部信息) TRACE(追踪路径)
+ > 4. 在http1.1 中,默认保持长连接.每个http协议都是在建立了TCP链接之后才进行报文的传输,在1.1此前的版本,每次完成http请求之后就会关闭TCP链接,TCP每次建立连接都需要经过3次握手等复杂的过程,比较耗资源.所以在1.1后,默认建立了长连接
+,即每次TCP建立后不再关闭,用于别的HTTP请求.1.1之前的版本可以通过http keep-alive的设置来实现持久连接.
+ > 5. http1.1引入了管道机制,即一个TCP连接里,客户端可以同时发送多次请求,不足之处是服务器每次只能先处理完先发送过来的请求,完了之后再处理后面的请求.
+  
+## http报文   
+  分http请求报文和http响应报文,报文的结构:   报文首部  + 空行(CR+LF)  + 报文主体 ,其中请求报文首部是包含了请求行,也就是(URL + http版本 + 方法),
+  响应报文的则是包含了状态行(http版本+状态码),首部还包含 请求/响应首部字段 + 通用首部字段等.  
+  
+### 一个http请求报文首部信息:  
+  > POST / HTTP/1.1 
+  > Host: https://www.facebook.com/  
+  > user-agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.99 Safari/537.36  
+  > accept:text/html,text/plain   (通知服务器,用户代理能够处理的媒体类型 以及各媒体类型的优先级,比如text/html,text/plain)  
+  > accept-language:zh-CN,zh;q=0.8,en;q=0.6   
+  > accept-encoding:gzip, deflate, sdch (用户代理支持的内容编码 以及 优先顺序)  
+  > Connection: Keep-Alive  
+  > cache-control:no-cache (用来操作缓存的工作机制,no-cache表示强制想服务器验证)
+  
+### http 响应报文首部信息:  
+ > HTTP/1.1 200 OK  
+ > Server:Apache Tomcat/5.0.12  
+ > Date:Mon,6Oct2003 13:23:42 GMT  
+ > Content-Length:112 (响应报文实体的大小)  
+ > Connection: close  
+ > Content-encoding:gzip (告知客户端,服务器对实体的主体部分选用的内容编码方式)  
+
+## http状态码    
+ > 1. 1XX,信息性状态码.  
+ > 2. 2XX,成功状态码.表示客户端的请求已经被正常处理了.  
+ > 3. 3XX,重定向状态码.  
+ > 4. 4XX,客户端错误.表示请求出错的来源于客户端.例如常见的400  
+ > 5. 5XX,服务器错误.服务器本身发生了错误.  
+ 
+### 列下常见的状态码:  
+ 200 OK  客户端请求成功  
+ 302 Found 临时重定向 表示URI请求的资源已经被分配给新的URI  
+ 400 Bad Request   客户端请求有语法错误  
+ 403 Forbidden   服务器收到请求，但是拒绝提供服务  
+ 404 Not Found   请求资源不存在   
+ 500 Internal Server Error  服务器内部错误  
+ 503 Server Unavailable  服务器当前不能处理客户端的请求，一段时间后可能恢复正常  
+ 
+## webSocket  
+websocket是一种在单个 TCP 连接上进行全双工通讯的协议,相比http协议,websocket有这些优点:  
+
+> 1.服务器推送,支持服务器向客户端推送数据. 在http1.1中,默认Connection: keep-alive 来实现单个的http连接里可以实现
+ 发送多个请求,接受多个响应.但是要获取一次服务器消息还是必须发送一次请求.而websocket则解决这个问题,服务器可以直接推送数据给客户端不必要等待客户端的请求.   
+> 2.减少通讯量,减少带宽. websocket的首部信息相比http来说少很多,因而通信量也少,占用带宽也少.  
+ 
+   websocket通信的过程,开始是先采用http协议发起链接,然后切换到websocket协议.  
+   网上例子:  
+ **请求:**  
+ 
+```
+    GET /chat HTTP/1.1  
+    Host: server.example.com  
+    Upgrade: websocket   (用于告诉服务器通信协议改为websocket,已达到握手目的)  
+    Connection: Upgrade  
+    Sec-WebSocket-Key: x3JJHMbDL1EzLkh9GBhXDw==  
+    Sec-WebSocket-Protocol: chat, superchat  
+    Sec-WebSocket-Version: 13  
+    Origin: http://example.com  
+```  
+ 
+ **响应:**  
+ 
+```
+    HTTP/1.1 101 Switching Protocols (101状态码)  
+    Upgrade: websocket  
+    Connection: Upgrade  
+    Sec-WebSocket-Accept: fFBooB7FAkLlXgRSz0BT3v4hq5s=  
+    Sec-WebSocket-Origin: null  
+    Sec-WebSocket-Location: ws://example.com/  
+```  
+ 
+ 
+ 建立websocket通信后,由于websocket支持全双工通信,因此服务器不需要等待请求,可直接发送数据给客户端.   
+ 在日常开发中,websocket最大的应用就是 替换ajax轮询来实现消息推送.
+ 
+ 
+ 
