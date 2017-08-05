@@ -1,16 +1,25 @@
-# Site settings
 title: K.Priest
-url: "https://kevinYin.github.io"    # the protocol and hostname of your site, eg. `http://laobubu.github.io`
+subtitle: 个人站
+description: 欢迎来到我的个人站~
+# 头像里面的标题
+#avatarTitle: leopardpan
+# 头像里面的描述
+avatarDesc: iOS / 机器学习
+url: "https://kevinYin.github.io"
+
+# Site settings
+#title: K.Priest
+#url: "https://kevinYin.github.io"    # the protocol and hostname of your site, eg. `http://laobubu.github.io`
 baseurl: "" # the prefix of your site uri, eg. `/jekyll-theme-EasyBook` or just one slash `/`
 #timezone: Asia/Chongqing
 description: >
-  java coder Big-Data
+  java coder
 
 # Your information
 email: liang_chengyin@163.com
 author: kevinYin
 #avatar: "//www.gravatar.com/avatar/your_email_md5?d=mm&s=135"
-avatar: "http://7xrmyq.com1.z0.glb.clouddn.com/avartar.jpg"
+#avatar: "http://7xrmyq.com1.z0.glb.clouddn.com/avartar.jpg"
 profile: 他进精神病院写代码了
 #twitter_username: twitter_username
 github_username:  kevinYin
@@ -18,25 +27,28 @@ github_username:  kevinYin
 # Comment Service (Disqus or 多说)
 #  choose one and un-comment the line to active it
 #disqus_shortname: xxx   # get one: https://disqus.com/admin/signup/
-comments :
-provider : duoshuo
-duoshuo :
-duoshuo_shortname: kevinyin
-# get one: http://duoshuo.com/create-site/
 
-permalink: /Priest/:title
-gems:
- - jekyll-paginate
- - jekyll-gist
- - jemoji
-
-# Build settings
-paginate: 12
-paginate_path: "page:num"
-
+permalink: /:year/:month/:title/
+# Format
 highlighter: rouge
-markdown: kramdown
 
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
+textColor: #FF0000
+
+# supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
+cover_color: clear
+
+# The blog button should not be removed.
+blog_button:
+    title: 博客主页
+
+# Navigation buttons in the front page.s
+nav:
+    - {title: 所有文章, description: archive, url: '/archive'}
+    - {title: 标签, description: tags, url: '/tags'}
+    - {title: 关于我, description: about, url: '/about'}
+
+
+# Pagination
+gems: [jekyll-paginate,jekyll-sitemap]
+paginate: 20
+paginate_path: "page/:num/"
