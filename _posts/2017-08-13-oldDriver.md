@@ -1,8 +1,8 @@
 ---
-layout: JVM  
+layout: post  
 title:  "一次CPU负载过高问题的定位过程"  
 date:   2017-08-13 00:46  
-categories: 分布式缓存  
+categories: JVM  
 permalink: /Priest/cpu-load-high
 
 ---
@@ -24,13 +24,13 @@ permalink: /Priest/cpu-load-high
 
 **3.定位线程**
 使用iotop 进行定位查看,可以看到某些线程在拼命写磁盘，这里线程id是 **TID**，具体在这里线程id是27484，转化为16进制是6b5c  
-<img src="../img/2017/iotop.jpg" height="250" />  
+<img src="../img/2017/iotop.jpg" height="160" />  
 
 **4.jstack 查看线程栈**
 学JVM的时候，知道jstack主要是用于生成java虚拟机当前时刻的线程快照，那可以直接将线程栈信息过滤出来，  
 注意的的一点是，线程id在jstack信息里面是按照16进制显示，所以将定位到的线程id转换为16进制  
 然后 **sudo jstack $pid | grep tid**,效果如下  
-<img src="../img/2017/thread.jpg" height="250" /> 
+<img src="../img/2017/thread.jpg" height="400" /> 
 
 这个时候就知道具体的定位，dubbo-monitor会定时生成图表，会一直往磁盘写。  
 解决方法？将磁盘改为SSD.......
