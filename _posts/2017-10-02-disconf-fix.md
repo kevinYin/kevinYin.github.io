@@ -9,7 +9,7 @@ permalink: /Priest/disconf-pull-fail
 
 ## 问题描述
 最近有同事反馈，测试环境的disconf的配置文件经常下载失败，需要重复重启项目才能正常下载。我们去看了具体的业务日志显示如下：
-<img src="../img/2017/download-fail.jpg" height="250" />  
+<img src="../img/2017/download-fail.jpg" height="200" />  
 这个问题导致不能正常使用disconf的配置文件，但是项目进程是起来的。
 
 ## 分析问题
@@ -85,10 +85,10 @@ java.io.IOException: File './disconf/download/global.properties-705c2dff5237485a
 <img src="../img/2017/absolute-path.jpg" height="350" />   
  使用的是System.getProperty("user.dir")的路径，而oracle官方对user.dir的描述是：**User's current working directory**，也就是当前用户的工作目录。如果是当前用户的工作目录，所谓的工作目录是是什么呢，我们查了Stack Overflow，看到user.dir所对应的目录并不是用户的home目录，而是当前用户所处的目录，比如，www用户 cd /var， 那么www用户的user.dir是 **/var**
 ,而不是 **/home/www**。所以聚焦在这个点，我们在启动过程查看user.dir的具体路径。   
- 
+
 ### 3.user.dir究竟是什么  
 非常幸运的是，启动项目过程，zookeeper帮我们打印出了java的所有公共属性的内容，比如，user.dir,user.home等，所以把出错的日志就出来查看，果然有问题！！！  
-<img src="../img/2017/user-dir.jpg" height="250" />  
+<img src="../img/2017/user-dir.jpg" height="150" />  
  出错的那次user.dir竟然是 /   
  查看了脚本没发现问题，突然想起最近运维加了服务自动拉起脚本（监控服务挂了然后调用脚本启动），会不会是他那边导致的问题，去深入了解他们的脚本，发现是这样：  
  ```shell
