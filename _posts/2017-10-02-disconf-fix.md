@@ -9,7 +9,7 @@ permalink: /Priest/disconf-pull-fail
 
 ## 问题描述
 最近有同事反馈，测试环境的disconf的配置文件经常下载失败，需要重复重启项目才能正常下载。我们去看了具体的业务日志显示如下：
-<img src="../img/2017/download-fail.jpg" height="200" />  
+<img src="../img/2017/download-fail.jpg" height="180" />  
 这个问题导致不能正常使用disconf的配置文件，但是项目进程是起来的。
 
 ## 分析问题
@@ -88,7 +88,7 @@ java.io.IOException: File './disconf/download/global.properties-705c2dff5237485a
 
 ### 3.user.dir究竟是什么  
 非常幸运的是，启动项目过程，zookeeper帮我们打印出了java的所有公共属性的内容，比如，user.dir,user.home等，所以把出错的日志就出来查看，果然有问题！！！  
-<img src="../img/2017/user-dir.jpg" height="150" />  
+<img src="../img/2017/user-dir.jpg" height="120" />  
  出错的那次user.dir竟然是 /   
  查看了脚本没发现问题，突然想起最近运维加了服务自动拉起脚本（监控服务挂了然后调用脚本启动），会不会是他那边导致的问题，去深入了解他们的脚本，发现是这样：  
  ```shell
