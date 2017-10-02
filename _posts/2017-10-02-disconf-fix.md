@@ -1,7 +1,7 @@
 ---
 layout: post  
 title:  "disconf的一次拉取失败排查"  
-date:   2017-08-13 00:46  
+date:   2017-10-02 00:46  
 categories: 踩坑集合  
 permalink: /Priest/disconf-pull-fail
 
@@ -96,6 +96,34 @@ sudo -u web XXX-restart.sh
  ```
 它是通过root用户进行调用，拉起服务的，看了拉起脚本拉起的日志，看到刚好是我们进行正常发布过程的时候，中间有个间隔，进程被kill掉，拉起脚本检测到，自动又执行了一次启动脚本。  
 也就是获取的user.dir不是web用户的home目录 或者 项目部署目录。  
+那到底在 **sudo -u web XXX-restart.sh** 下，user.dir会是什么，我在本地打了一个简单的测试用例，然后打成一个jar包，写个执行的shell脚本执行，用户是kevin，具体如下：  
+main方法：
+```java
+public static void main( String[] args ) throws IOException {
+    String path = "./disconf/download/t1.text-uy8172g3hj3";
+    File file = new File(path);
+    System.out.println(System.getProperty("user.dir"));
+
+    File parent = file.getParentFile();
+    if (parent != null && parent.exists() == false) {
+        if (parent.mkdirs() == false) {
+            throw new IOException("File '" + file + "' could not be created");
+        }
+    }
+
+    new FileOutputStream(file);
+    System.out.println(file.getAbsolutePath());
+}
+```
+shell脚本test.sh，创建用户是 kevin：  
+java -cp /Users/kevin/project/tmp/testFile/target/testFile-1.0-SNAPSHOT.jar com.test.App  
+测试方式 : 切换到root用户执行，cd /var && sudo -u kevin /Users/kevin/testShell/test.sh，结果如下：  
+```
+/private/var   (user.dir目录)
+Exception in thread "main" java.io.IOException: File './disconf/download/t1.text-uy8172g3hj3' could not be created
+	at com.test.App.main(App.java:26)
+```
+所以结论是，即使是通过shell指定用户执行 java类，获取到的 user.dir, 跟当前用户所在目录有关，而不是依赖于所指定的运行用户有关。所以即使拉起脚本指定了web用户，但是最终启动的用户路径还是执行 sudo -u web XXX-restart.sh 的用户所处的目录。因此没有权限创建目录。
 
 ## 解决
 解决的方法挺简单的，在正式运行java程序的时候，先cd 到某一个 web用户完全有权限创建目录的 目录，比如 /home/web等  
