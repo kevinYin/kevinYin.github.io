@@ -2,7 +2,7 @@
 layout: post  
 title:  "spring源码学习--IOC容器初始化代码"  
 date:   2016-07-25 01:16  
-categories: spring  
+categories: 源码系列  
 permalink: /Priest/spring-ioc-code  
 
 ---
@@ -32,12 +32,12 @@ public FileSystemXmlApplicationContext(String[] configLocations, boolean refresh
 	}
 ```
 setConfigLocations明显是初始化Resource的文件路径，后面看到configLocations会被转化放进Resource[] 数组，然后逐个Resource进行解析。然后是关键**refresh()**进行一系列的复杂的功能的初始化工作，其中就包括bean的载入、注册等功能。   
- 
+
 ```
 	// Prepare this context for refreshing.
 	prepareRefresh();
 	// Tell the subclass to refresh the internal bean factory.
-	
+
 	ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 	// Prepare the bean factory for use in this context.
@@ -74,7 +74,7 @@ setConfigLocations明显是初始化Resource的文件路径，后面看到config
 ```    
 
 而跟IOC容器初始化核心相关的则是 **ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();** 这个方法字面上是获取一个BeanFacotry，其实就是初始化IOC容器，包括Resource的读取解析，BeanDefinition的载入，BeanDefinition注册进BeanFactory。进入该方法，可以看到refreshBeanFactory(); 是核心的构建BeanFactory的方法，    
-  
+
 ```
 			DefaultListableBeanFactory beanFactory = createBeanFactory();
 			beanFactory.setSerializationId(getId());
@@ -82,7 +82,7 @@ setConfigLocations明显是初始化Resource的文件路径，后面看到config
 			loadBeanDefinitions(beanFactory);
 ```    
 
-其中看到了第一个方法就是创建一个DefaultListableBeanFactory，这个就是spring默认的BeanFactory；然后最后一个**loadBeanDefinitions(beanFactory);**就是完成ReSource的解析 、bean的载入、以及注册进beanFactory. 
+其中看到了第一个方法就是创建一个DefaultListableBeanFactory，这个就是spring默认的BeanFactory；然后最后一个**loadBeanDefinitions(beanFactory);**就是完成ReSource的解析 、bean的载入、以及注册进beanFactory.
 解析来进入loadBeanDefinitions方法，   
 
 ```
