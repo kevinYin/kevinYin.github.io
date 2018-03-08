@@ -10,7 +10,7 @@ permalink: /Priest/mysql-deadLock
 ## 前言  
 mysql的死锁是生产环境相对常遇到，在开发、测试环境却很难重现的一个问题，以前线上出现死锁的时候，运维都是直接暴力重启mysql来解决。所以很多时候开发很难找到到底这个死锁是怎么发生的，是哪些SQL语句导致死锁的，今天花了点时间测试下，大致给一个思路来还原业务代码如何导致死锁的发生以及发生死锁后，怎么去定位是哪几条SQL导致的。
 
-##什么是死锁
+## 什么是死锁
 当多个事务在执行过程，形成相互等待对方释放锁资源的情景。  
 举个例子：  
 ```
@@ -22,14 +22,14 @@ mysql的死锁是生产环境相对常遇到，在开发、测试环境却很难
 ```
 这样执行过程就会形成相互等待对方释放锁资源的情况，就造成了死锁。  
 
-##还原死锁如何发生
+## 还原死锁如何发生
 为了还原死锁是如何发生的，我尝试在java代码里还原，  
 原理大致如下：  
 > 一个事务里执行2次更新操作，然后将2次更新操作间隔开来，比如隔5S  
 > 同时开2个线程，一起访问这个方法，根据特定参数 调整2次更新的间隔时间，来实现上面的情况
 
 贴下代码：  
-```
+```java
     @Test
     public void test() throws InterruptedException {
          RecommendFeed feed1 = RecommendFeed.builder().recommendId(1) .plateId("123").build();
@@ -65,7 +65,7 @@ mysql的死锁是生产环境相对常遇到，在开发、测试环境却很难
 
 ```
 事务操作方法  
-```
+```java
     @Transactional(readOnly = false,rollbackFor = Exception.class)
     public void testDeadLock(RecommendFeed f1, RecommendFeed f2) throws Exception {
         updateFeed(f1);
@@ -81,7 +81,7 @@ mysql的死锁是生产环境相对常遇到，在开发、测试环境却很难
     }
 ```
 执行的结果如下  
-```
+```java
 Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException: Deadlock found when trying to get lock; try restarting transaction
 ; SQL []; Deadlock found when trying to get lock; try restarting transaction; nested exception is com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException: Deadlock found when trying to get lock; try restarting transaction
 	at org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator.doTranslate(SQLErrorCodeSQLExceptionTranslator.java:263)
@@ -89,14 +89,14 @@ Cause: com.mysql.jdbc.exceptions.jdbc4.MySQLTransactionRollbackException: Deadlo
 ```
 所以大致的逻辑能够还原mysql的死锁的形成原因，接下来是定位具体的SQL  
 
-##定位
+## 定位
 登录mysql的服务器，查看下最新的死锁记录  
-```
+```shell
 mysql> show engine innodb status \G;
 ```
 可以看到一大堆的信息 ，但是聚焦在 **LATEST DETECTED DEADLOCK**，即最新的死锁日志，即可看出来是哪2个事务导致的死锁  
 **事务1**
-```
+```shell
 *** (1) TRANSACTION:
 TRANSACTION 69997717, ACTIVE 7.870 sec starting index read
 mysql tables in use 1, locked 1
