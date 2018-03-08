@@ -2,7 +2,7 @@
 layout: post  
 title:  "mysql死锁还原和分析"  
 date:   2018-03-08 01:20  
-categories: mysql  
+categories: SQL  
 permalink: /Priest/mysql-deadLock
 
 ---
