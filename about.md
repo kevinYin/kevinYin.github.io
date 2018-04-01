@@ -7,6 +7,6 @@ public: true
 ---
 
 
-**广州贝聊科技 研发部 程序员 mac用户 资深翻墙人 麻将三级 kevinyin711@gmail.com**  
+**程序员 mac用户 资深翻墙人 麻将三级 kevinyin711@gmail.com**  
 
 <img src="../img/me.jpg" height="230" />
