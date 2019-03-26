@@ -27,7 +27,7 @@ Caused by: java.lang.RuntimeException: Error fetching next at http://XXXXX/v1/st
 鉴于presto没有在log打印出异常栈，唯一觉得可以想得通的就是presto的代码把Exception给catch 掉，但是没有记录起来，所以关键是要找到抛出异常的那段代码，把Exception 打印出来，获取最原始的异常信息。  
 于是搭了一个presto的集群，jvm参数加了 **-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5009**远程debug参数，通过无数次的请求，debug到最终的异常信息。  
 ### 第四步：理解presto query请求过程
-debug presto的过程，发现presto 是通过一个内部的rest框架**https://github.com/airlift/airlift**来实现查询请求，请求过程大致如下：  
+debug presto的过程，发现presto 是通过一个内部的rest框架 **https://github.com/airlift/airlift** 来实现查询请求，请求过程大致如下：  
 > 1.客户端通过http client将query SQL请求到presto-server 的rest接口，对应的类是StatementResource#createQuery 进行创建查询请求  
 > 2.presto 查询有别于常规的SQL查询，它是创建请求后获取queryId，后续再不断请求服务端来获取数据，见StatementResource#getQueryResults
 > 出乎意料的是getQueryResults不是同步返回结果的，它采用了guava工具类实现异步返回结果，这给debug带来困难  
