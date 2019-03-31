@@ -25,8 +25,8 @@ Caused by: java.lang.RuntimeException: Error fetching next at http://XXXXX/v1/st
 在github找到一个用户遇到一样的问题 **https://github.com/prestodb/presto/issues/10049** 看到Facebook的开发者在最后说了还在开发过程中，可以使用商业版本的presto（日了狗），出于穷 + 风险大（商业版本很久之前已经从presto fork出去了，不敢随便用）的考虑，我们还是坚持使用官方的presto。
 ### 第三步：远程debug presto server
 鉴于presto没有在log打印出异常栈，唯一觉得可以想得通的就是presto的代码把Exception给catch 掉，但是没有记录起来，所以关键是要找到抛出异常的那段代码，把Exception 打印出来，获取最原始的异常信息。  
-于是搭了一个presto的集群，jvm参数加了 **-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5009**远程debug参数，通过无数次的请求，debug到最终的异常信息。  
-### 第四步：理解presto query请求过程
+于是搭了一个presto的集群，jvm参数加了 **-Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5009**远程debug参数，通过无数次的请求，debug到最终的异常信息，在说具体的异常信息之前先看debug过程。  
+### 第四步：远程debug过程  
 debug presto的过程，发现presto 是通过一个内部的rest框架 **https://github.com/airlift/airlift** 来实现查询请求，请求过程大致如下：  
 > 1.客户端通过http client将query SQL请求到presto-server 的rest接口，对应的类是StatementResource#createQuery 进行创建查询请求  
 > 2.presto 查询有别于常规的SQL查询，它是创建请求后获取queryId，后续再不断请求服务端来获取数据，见StatementResource#getQueryResults
