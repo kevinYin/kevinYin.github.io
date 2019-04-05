@@ -1,7 +1,7 @@
 ---
 layout: post  
 title:  "一道带有遗憾的算法题"  
-date:   2017-03-31 00:01  
+date:   2018-03-31 00:01  
 categories: 算法  
 permalink: /Priest/question-one
 
