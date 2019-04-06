@@ -37,7 +37,7 @@ debug presto的过程，发现presto 是通过一个内部的rest框架 **https:
   3.然后根据社区的一些人的反馈和源码的阅读，找到了一个关键的类OutboundMessageContext#854L，用于正常的query完成后close connection时触发，正如源码的注释所写：**Happens when the client closed connection before receiving the full response**，看了源码显示如果有异常，会catch并log，但是远程debug的时候服务端并没有记录这个异常，所以这个时候使用intellij的功能（ctrl + U），临时执行一段代码**e.printStackTrace()** 可以在服务端清晰看到这个异常的信息是 **Response Header too large**，然后再debug到response的header 存放着preparestatement的SQL，这个时候一切都清晰了，是presto把prepareStatement的SQL放到http header里面，由于rest框架的默认限制repsonse header是8kb，导致在SQL长的时候报错，之所以没有在log打印异常，因为这个是属于rest框架的配置，presto默认没有配置这块，导致log没有记录起来。  
 
 ## 解决
-确认是response header too large的原因之后，开始着手看Facebook内部的rest框架 airlift，之前在社区有看到一些问题的时候有用户提到配置http-server.max-request-header-size，那么没什么意外这个应该就是airlift的配置，clone源码之后，全局搜索下，果然找到在类HttpServerConfig里面有配置，并且是HttpServer类初始化的时候调用，然后发现它是封装了jetty，相应地我搜索下jetty 关于repsonse header size的配置，果然有。但是airlift 没有这个配置项，所以最终的解决方式是  
+确认是response header too large的原因之后，开始着手看Facebook内部的rest框架 airlift，之前在社区有看到一些问题的时候有用户提到配置`http-server.max-request-header-size`，那么没什么意外这个应该就是airlift的配置，clone源码之后，全局搜索下，果然找到在类HttpServerConfig里面有配置，并且是HttpServer类初始化的时候调用，然后发现它是封装了jetty，相应地我搜索下jetty 关于repsonse header size的配置，果然有。但是airlift 没有这个配置项，所以最终的解决方式是在初始化的时候加上jetty对repsonse header size的设置，并且在presto的配置文件加上`http-server.max-repsonse-header-size`的配置参数值即可，具体如下    
 > 1.clone airlift代码，修改HttpServerConfig.java，添加一个http-server.max-repsonse-header-size的初始化操作   
 
 ```java
@@ -62,4 +62,4 @@ if (config.getMaxResponseHeaderSize() != null) {
 }
 ```
 
-重新maven打包，替换掉部署的presto对应的jar包，重启，即可解决  
+重新maven打包，替换掉部署的presto对应的jar包，再在presto的config文件加上`http-server.max-repsonse-header-size`重启，即可解决  
