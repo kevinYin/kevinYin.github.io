@@ -11,8 +11,8 @@ permalink: /Priest/ThreadDumper
 419大促值班的时候，遇到一个生产的OSP（VIP的RPC框架）的框架异常，意思大致是某个RPC服务接口出现方法级线程池爆满，而通过定位，发现该接口是定时任务每隔半个小时触发一次。初步判断是这个方法可能是某个地方组塞住了，然后每隔半个小时创建新线程执行该方法的时候，由于之前的线程都没有运行完，所以线程一直在阻塞着，导致该方法的线程池爆满。  
 ## 定位
 ### log
-出问题之后，第一时间就是看log，从异常栈看到是RPC的某个方法，出现这个方法级线程池爆满。而日志里面让我耳目一新的是**Thread dump by ThreadDumpper for rejected by method level business **，然后接下来的是一些异常栈信息，就是把当前存活的线程的线程栈打出来，把每个存活的线程都状态，线程栈信息全打出来，类似  
-```
+出问题之后，第一时间就是看log，从异常栈看到是RPC的某个方法，出现这个方法级线程池爆满。而日志里面让我耳目一新的是 **Thread dump by ThreadDumpper for rejected by method level business ** ，然后接下来的是一些异常栈信息，就是把当前存活的线程的线程栈打出来，把每个存活的线程都状态，线程栈信息全打出来，类似  
+```java
 "thread-dump-0" Id=13 WAITING
 	at java.lang.Object.wait(Native Method)
 	at java.util.concurrent.ForkJoinTask.externalAwaitDone(ForkJoinTask.java:334)
@@ -31,7 +31,7 @@ permalink: /Priest/ThreadDumper
 这个问题其实很简单，就是建立个线程池，然后开满线程去跑一个会引起线程阻塞的方法，等到线程池用满之后，再来一个线程就会触发reject抛异常，抛异常的时候再将当前存活的线程的线程栈打出来。  
 #### 会引起阻塞/死锁的操作
 **是的，这份代码会触发死锁，后面再解释**
-```
+```java
 public class StaticWithLmdUtils {
 
     static {
@@ -47,7 +47,7 @@ public class StaticWithLmdUtils {
 }
 ```
 #### 模拟多个线程耗尽线程池
-```
+```java
 public class ThreadDumpMain {
 
     public static void main(String[] args) {
@@ -72,7 +72,7 @@ public class ThreadDumpMain {
 
 #### 运行结果
 省略了一部分，把重要的抽取出来，实际上使用需要自己要仔细观察所有的线程栈  
-```
+```java
 
 "thread-dump-41" Id=98 RUNNABLE
 	at com.kevin.vjtool.ThreadDumpMain.lambda$main$0(ThreadDumpMain.java:24)
