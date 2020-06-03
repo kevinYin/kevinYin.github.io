@@ -17,11 +17,13 @@ permalink: /Priest/fullGC-troubleshooting
  
 ### 分析dump文件  
 打开MAT，注意一般dump文件有个 7 8G，用mat打开的时候可能会出现堆内存不足导致失败，所以需要配置下mat的堆内存大小，在mat的安装目录 的 MemoryAnalyzer.ini 文件里面，配置下Xmx，就拿我本次来说，配了2GB就可以了。
-打开之后，发现分析的饼图跟7.2GB的dump文件大小完全对不上，一查才发现MAT默认把不可达的对象（unreachable objects）解析，详细见官方文档https://wiki.eclipse.org/MemoryAnalyzer/FAQ#How_to_analyse_unreachable_objects ，需要修改mat的默认配置， 
+打开之后，发现分析的饼图跟7.2GB的dump文件大小完全对不上，一查才发现MAT默认把不可达的对象（unreachable objects）解析，详细见官方文档https://wiki.eclipse.org/MemoryAnalyzer/FAQ#How_to_analyse_unreachable_objects ，需要修改mat的默认配置，   
+
 <img src="../img/2020/mat10.jpg" height="250" width="460" />  
 
- 重新分析beforeGC.dump之后，发现byte[] int[] 占了接近6GB，没有看到任何的业务对象
-<img src="../img/2020/mat11.jpg" height="300" width="400" />   
+ 重新分析beforeGC.dump之后，发现byte[] int[] 占了接近6GB，没有看到任何的业务对象 
+ 
+<img src="../img/2020/mat11.jpg" height="300" width="300" />   
 
 ### dump文件对比
 刚刚开始的时候 准备了gc之后的dump文件，这个时候打开，跟gc之前的dump文件对比下，看看主要是哪些对象发生了改变，方便查询问题。  
@@ -83,7 +85,8 @@ public DataBufferInt(int size) {
     bankdata[0] = data;
 }
 ```
-写了一个简单的demo运行，通过visulVM监控各个区域内存使用，发现在 【500MB堆内存下，开10个线程去生成 10个缩略图，图片大小380kb，1920*900】会在 eden区有165MB内存的情况下，依旧是有对象进入到了老年代。
+写了一个简单的demo运行，通过visulVM监控各个区域内存使用，发现在 【500MB堆内存下，开10个线程去生成 10个缩略图，图片大小380kb，1920*900】会在 eden区有165MB内存的情况下，依旧是有对象进入到了老年代。  
+
 <img src="../img/2020/mat15.jpg" height="200" width="500" />   
 
 ## 解决
