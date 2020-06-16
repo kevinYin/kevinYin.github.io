@@ -30,7 +30,7 @@ permalink: /Priest/fullGC-troubleshooting
 <img src="../img/2020/mat12.jpg" height="300" width="500" />     
 
 果然发现了一些异常，int[] 多出了2.8G，直接右键 选择**Merge Shortest Paths to GC Roots” -> "exclude all phantom/weak/soft etc. references**, 选择这个【exclude all phantom/weak/soft etc. references】意思是查看排除虚引用/弱引用/软引用等的引用链，因为被虚引用/弱引用/软引用的对象可以直接被GC给回收，所以不大可能是会触发Full GC的主要原因，我们要看的就是某个对象否还存在Strong 引用链。  
-<img src="../img/2020/mat13.jpg" height="300" width="500" />     
+<img src="../img/2020/mat13.jpg" height="180" width="600" />     
 
 结果：  
 <img src="../img/2020/mat14.jpg" height="300" width="500" />     
