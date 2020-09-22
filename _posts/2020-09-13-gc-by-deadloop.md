@@ -14,28 +14,28 @@ permalink: /Priest/one-class-FGC
 
 ## 排查过程
 ### 第一步：打开dump文件
-快速做了heap dump之后，大概有8G，用MAT打开dump文件，花了好几分钟终于出了分析结果（如果打开很慢，建议打开MemoryAnalyzer.ini，设置下mat大点的堆内存，可以提速），看下饼图如下 
-<img src="../img/2020/0914/WechatIMG267.jpg" height="250" width="460" />
-可以看出有2部分占用了很大对内存，但是具体是由什么对象占用的不知道。
+快速做了heap dump之后，大概有8G，用MAT打开dump文件，花了好几分钟终于出了分析结果（如果打开很慢，建议打开MemoryAnalyzer.ini，设置下mat大点的堆内存，可以提速），看下饼图如下   
+<img src="../img/2020/0914/WechatIMG267.jpg" height="350" width="460" />  
+可以看出有2部分占用了很大对内存，但是具体是由什么对象占用的不知道。  
 
 ### 第二步：查看报告
 打开Leak Suspect，查看下报告，目的是看出是哪些线程占用了这些大对象，如图  
-<img src="../img/2020/0914/WechatIMG268.jpg" height="250" width="460" />  
+<img src="../img/2020/0914/WechatIMG268.jpg" height="450" width="460" />  
 可以看出是2个线程的本地变量分别占用了46%的堆内存，而且都是在一个HashMap的节点，也就是这2个线程占用了92%的堆内存，一直GC不掉。
 点击detail，查看是什么对象占用，  
-<img src="../img/2020/0914/WechatIMG270.jpg" height="250" width="460" />  
+<img src="../img/2020/0914/WechatIMG270.jpg" height="100" width="540" />  
 从这里可以看出报告的HashMap是属于一个HashSet对象里面，但是这个HashSet是在代码的哪一行的呢
 
 ### 第三步：打开线程栈
 查看当前的线程栈，看看对象所在的线程的线程栈，然后再逐个追到大对象HashSet是这个线程栈的哪一个变量，用mat打开线程栈，找到大对象所在的线程，然后点击打开线程栈  
-<img src="../img/2020/0914/WechatIMG271.jpg" height="250" width="460" />  
+<img src="../img/2020/0914/WechatIMG271.jpg" height="290" width="660" />  
 可以清晰看到大对象对应的是线程的线程栈，初步缩小范围到一个某几个HashSet，但是那几个大的HashSet里面的内容是什么呢
 
 ### 第四步：查看大对象的内容
 点击查看对象分布，找到最大对象  
-<img src="../img/2020/0914/WechatIMG269.jpg" height="250" width="460" />    
+<img src="../img/2020/0914/WechatIMG269.jpg" height="150" width="460" />    
 可以看出char[] 数组有占用超过2.XGB，HashMap$Node也超过5.XGB，那证明2者是有共同引用的，直接用OQL查下char[] 里面的内容是什么    
-<img src="../img/2020/0914/WechatIMG275.jpg" height="250" width="460" />   
+<img src="../img/2020/0914/WechatIMG275.jpg" height="450" width="360" />   
 发现里面的内容格式，是类似**XXX00**的数据，根据内容和线程栈，结合代码找到了根因。  
 
 ### 第五步：最终定位
