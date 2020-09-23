@@ -34,9 +34,10 @@ permalink: /Priest/one-class-FGC
 ### 第四步：查看大对象的内容
 点击查看对象分布，找到最大对象  
 <img src="../img/2020/0914/WechatIMG269.jpg" height="150" width="460" />    
-可以看出char[] 数组有占用超过2.XGB，HashMap$Node也超过5.XGB，那证明2者是有共同引用的，直接用OQL查下char[] 里面的内容是什么    
-<img src="../img/2020/0914/WechatIMG275.jpg" height="450" width="360" />   
-发现里面的内容格式，是类似**XXX00**的数据，根据内容和线程栈，结合代码找到了根因。  
+看到HashMap$Node，一层层点击进去查看，看到每一个Node的内容的key都是类似**XXX00**的数据，而value都是同一个对象，
+<img src="../img/2020/0914/WechatIMG281.jpg" height="150" width="460" /> 
+判断这个是HashSet的内存信息，同时发现HashMap$Node 数量高达5000W个，因此断定那个大的HashSet的内容都是**XXX00**的数据
+ ，根据内容和线程栈，结合代码找到了根因。  
 
 ### 第五步：最终定位
 根据第二步的报告中，有提到ForkJoin的线程名字，外加对象内容是 XXX00 这种格式的数据，找到了代码：  
