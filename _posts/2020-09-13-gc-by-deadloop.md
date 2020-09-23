@@ -35,7 +35,7 @@ permalink: /Priest/one-class-FGC
 点击查看对象分布，找到最大对象  
 <img src="../img/2020/0914/WechatIMG269.jpg" height="150" width="460" />    
 看到HashMap$Node，一层层点击进去查看，看到每一个Node的内容的key都是类似**XXX00**的数据，而value都是同一个对象，  
-<img src="../img/2020/0914/WechatIMG281.jpg" height="200" width="460" /> 
+<img src="../img/2020/0914/WechatIMG281.jpg" height="200" width="460" />   
 判断这个是HashSet的内存信息，同时发现HashMap$Node 数量高达5000W个，因此断定那个大的HashSet的内容都是**XXX00**的数据
  ，根据内容和线程栈，结合代码找到了根因。  
 
